@@ -1,0 +1,462 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: Music Social Media API
+  description: API for a social media app focused on music interactions.
+
+servers:
+  - url: http://localhost:8080
+  - url: https://api.example.com
+
+paths:
+  /user/{user_id}/song:
+    get:
+      summary: Search for a song
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: song_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: song_artist
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: song_genre
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: song_album
+          in: query
+          required: false
+          schema:
+            type: string  
+            
+      responses:
+        '200':
+          description: A list of songs matching the search criteria.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Song'
+        '400':
+          description: Bad request
+
+  /user/{user_id}/post:
+    put:
+      summary: Customize a post
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: song_lyrics
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: song_album_cover
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: song_canvas
+          in: query
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '200':
+          description: Post updated successfully
+        '400':
+          description: Bad request
+
+    post:
+      summary: Create a post
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: song_lyrics
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: song_album_cover
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: song_canvas
+          in: query
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '201':
+          description: Post created successfully
+        '400':
+          description: Bad request
+
+  /user/{user_id}/post/{post_id}:
+    delete:
+      summary: Delete a post
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Post deleted successfully
+        '400':
+          description: Bad request
+
+  /user/{user_id}/following/{following_id}:
+    put:
+      summary: Follow a user
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: following_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Followed successfully
+        '400':
+          description: Bad request
+
+    delete:
+      summary: Unfollow a user
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: following_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Unfollowed successfully
+        '400':
+          description: Bad request
+
+  /user/{user_id}/following/{following_id}/post/{post_id}:
+    put:
+      summary: Interact with a following user's post
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: following_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: like
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: comment
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: report
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Interaction successful
+        '400':
+          description: Bad request
+
+  /user/{user_id}/following/{following_id}/post/{post_id}/comment/{comment_id}:
+    put:
+      summary: Interact with a following user's post comment
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: following_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: comment_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: like
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: reply
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: report
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Interaction successful
+        '400':
+          description: Bad request
+
+  /user/{user_id}/spotify:
+    put:
+      summary: Sync the app with Spotify
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Spotify'
+      responses:
+        '200':
+          description: Sync successful
+        '400':
+          description: Bad request
+
+  /user/{user_id}/following/{following_id}/post/{post_id}/song/{song_id}:
+    put:
+      summary: Add a following user's post's song to Spotify
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: following_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: post_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: song_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Song added to Spotify successfully
+        '400':
+          description: Bad request
+
+  /user/{user_id}/notifications/posts:
+    get:
+      summary: Get notifications for a user's posts
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of notifications for the user's posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+        '400':
+          description: Bad request
+
+  /user/{user_id}/notifications/comments:
+    get:
+      summary: Get notifications for a user's comments
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of notifications for the user's comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+        '400':
+          description: Bad request
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    Song:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        artist:
+          type: string
+        album:
+          type: string
+        genre:
+          type: string
+
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        songId:
+          type: integer
+        customizations:
+          type: object
+          properties:
+            song_lyrics:
+              type: string
+            song_album_cover:
+              type: string
+            song_canvas:
+              type: string
+
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        message:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        read:
+          type: boolean
+
+    Spotify:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        expiresIn:
+          type: integer
+        scope:
+          type: string
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        postId:
+          type: integer
+        userId:
+          type: integer
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Following:
+      type: object
+      properties:
+        Id:
+          type: integer
+        username: 
+          type: string
+      
