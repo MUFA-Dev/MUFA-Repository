@@ -21,8 +21,8 @@ jobs:
       - name: Run tests
         run: npm run test
         working-directory: nodejs-server-server-generated
-<<<<<<< Updated upstream
-    cd:
+
+  cd:
     runs-on: ubuntu-latest
     needs: ci
     steps:
@@ -31,14 +31,3 @@ jobs:
         with:
           service-id: ${{ secrets.RENDER_SERVICE_ID }}
           api-key: ${{ secrets.RENDER_API_KEY }}
-=======
-  cd:
-      runs-on: ubuntu-latest
-      needs: ci
-      steps:
-        - name: Deploy to Render
-          uses: johnbeynon/render-deploy-action@v0.0.8
-          with:
-            service-id: ${{ secrets.RENDER_SERVICE_ID }}
-            api-key: ${{ secrets.RENDER_API_KEY }} 
->>>>>>> Stashed changes
