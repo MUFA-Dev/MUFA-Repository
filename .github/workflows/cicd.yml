@@ -33,9 +33,6 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: nodejs-server-server-generated
-      - name: Build application
-        run: npm run build
-        working-directory: nodejs-server-server-generated
       - name: Deploy to hosting service
         run: |
           # Example deployment command for Heroku
