@@ -33,11 +33,12 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: nodejs-server-server-generated
-      - name: Deploy to hosting service
+      - name: Deploy to Heroku
         run: |
-          # Example deployment command for Heroku
-          heroku login --apikey ${{ secrets.HEROKU_API_KEY }}
-          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main
+          echo ${{ secrets.HEROKU_API_KEY }} | heroku auth:token
+          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
+          git push heroku main
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+
