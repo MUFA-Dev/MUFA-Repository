@@ -7,7 +7,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      - name: install dependencies
+      - name: Change directory
+        run: cd nodejs-server-server-generated
+      - name: Install dependencies
         run: npm install
       - name: Run test
         run: npm test
