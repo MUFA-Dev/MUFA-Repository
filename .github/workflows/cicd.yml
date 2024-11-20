@@ -1,14 +1,20 @@
-name: ci
+name: cicd
 
 on: push
-
+  branches: 
+    -main
+    -dev
+  pull_request:
+    branches:
+      - main
+      - dev
 jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      -name: Checkout repo
-       uses: actions/checkout@v3
-      -name: install dependencies
-       run: npm install
-      -name: Run test
-       run: npm test
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: install dependencies
+        run: npm install
+      - name: Run test
+        run: npm test
