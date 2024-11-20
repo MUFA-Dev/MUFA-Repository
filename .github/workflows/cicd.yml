@@ -1,8 +1,13 @@
-name: ci
+name: CI/CD Pipeline
 
-on: push
+on: 
+  push:
+    branches:
+      - main # Trigger CI/CD on pushes to the main branch
+
 jobs:
   ci:
+    name: Continuous Integration
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -10,6 +15,32 @@ jobs:
       - name: Install dependencies
         run: npm install
         working-directory: nodejs-server-server-generated
-      - name: Run test
+      - name: Run tests
         run: npm test
         working-directory: nodejs-server-server-generated
+
+  cd:
+    name: Continuous Deployment
+    needs: ci # Ensure CD runs only after CI succeeds
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16 # Use the version your app requires
+      - name: Install dependencies
+        run: npm install
+        working-directory: nodejs-server-server-generated
+      - name: Build application
+        run: npm run build
+        working-directory: nodejs-server-server-generated
+      - name: Deploy to hosting service
+        run: |
+          # Example deployment command for Heroku
+          heroku login --apikey ${{ secrets.HEROKU_API_KEY }}
+          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
