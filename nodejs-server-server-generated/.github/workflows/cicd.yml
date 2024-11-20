@@ -1,6 +1,9 @@
 name: ci
 
 on: push
+  brunch: 
+          -main
+          -dev
 
 jobs:
   ci:
