@@ -8,7 +8,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
       - name: Change directory
-        run: cd nodejs-server-server-generated/package.json
+        run: cd nodejs-server-server-generated
       - name: Install dependencies
         run: npm install
       - name: Run test
