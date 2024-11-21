@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - Dev--George  # Add your specific branches here
+      - Dev--George  
 
 jobs:
   ci:
@@ -24,12 +24,12 @@ jobs:
       - name: Run tests
         run: npm run test
 
-  # cd:
-  #   runs-on: ubuntu-latest
-  #   needs: ci
-  #   steps:
-  #     - name: Deploy to Render
-  #       uses: johnbeynon/render-deploy-action@v0.0.8
-  #       with:
-  #         service-id: ${{ secrets.RENDER_SERVICE_ID_DOOJY }}
-  #         api-key: ${{ secrets.RENDER_API_KEY_DOOJY }}
+  cd:
+    runs-on: ubuntu-latest
+    needs: ci
+    steps:
+      - name: Deploy to Render
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_ID_DOOJY }}
+          api-key: ${{ secrets.RENDER_API_KEY_DOOJY }}
