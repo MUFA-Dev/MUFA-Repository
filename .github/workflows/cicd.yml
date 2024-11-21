@@ -19,15 +19,15 @@ jobs:
 
       - name: Run tests
         run: npm run test
-  cd:
-    runs-on: ubuntu-latest
-    needs: ci
-    steps:
-      - name: Deploy to Render
-        uses: johnbeynon/render-deploy-action@v0.0.8
-        with:
-          service-id: https://api.render.com/deploy/srv-csv430jtq21c73ejnqp0?key=oirM2RpLzAk
-          api-key: rnd_qwP09XCv4uh1apGTO74ozlqDyEL8
-          # service-id: ${{ secrets.RENDER_SERVICE_ID_DOOJY }}
-          # api-key: ${{ secrets.RENDER_API_KEY_DOOJY }}
+  # cd:
+  #   runs-on: ubuntu-latest
+  #   needs: ci
+  #   steps:
+  #     - name: Deploy to Render
+  #       uses: johnbeynon/render-deploy-action@v0.0.8
+  #       with:
+  #         service-id: https://api.render.com/deploy/srv-csv430jtq21c73ejnqp0?key=oirM2RpLzAk
+  #         api-key: rnd_qwP09XCv4uh1apGTO74ozlqDyEL8
+  #         # service-id: ${{ secrets.RENDER_SERVICE_ID_DOOJY }}
+  #         # api-key: ${{ secrets.RENDER_API_KEY_DOOJY }}
 
