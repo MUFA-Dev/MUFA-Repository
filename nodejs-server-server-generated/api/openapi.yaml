@@ -7,6 +7,30 @@ servers:
 - url: http://localhost:8080
 - url: https://api.example.com
 paths:
+  /:
+    get:
+      summary: "Root endpoint"
+      description: "Απαντά με το μήνυμα 'It works!'"
+      responses:
+        '200':
+          description: "Η διαδρομή λειτουργεί"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "It works!"
+
+  /docs:
+    get:
+      summary: "Swagger UI"
+      description: "Η διαδρομή για το Swagger UI"
+      responses:
+        '200':
+          description: "Η διεπαφή του Swagger UI"
+          content:
+            text/html:
+              schema:
+                type: string
   /user/{user_id}/song:
     get:
       summary: Search for a song
