@@ -28,17 +28,6 @@ paths:
         '404':
           description: "Η διαδρομή δεν βρέθηκε"
 
-  /docs:
-    get:
-      summary: "Swagger UI"
-      description: "Η διαδρομή για το Swagger UI"
-      responses:
-        '200':
-          description: "Η διεπαφή του Swagger UI"
-          content:
-            text/html:
-              schema:
-                type: string
   /user/{user_id}/song:
     get:
       summary: Search for a song
