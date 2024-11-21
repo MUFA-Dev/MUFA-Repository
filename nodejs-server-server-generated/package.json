@@ -4,7 +4,6 @@
   "description": "API for a social media app focused on music interactions.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js --watch .",
 	  "prestart": "npm install",
 	  "start": "node index.js",
 	  "test": "echo \"Test passed\" && exit 0",
