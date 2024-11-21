@@ -4,8 +4,10 @@
   "description": "API for a social media app focused on music interactions.",
   "main": "index.js",
   "scripts": {
-	"prestart": "npm install",
-	"start": "node index.js",
+    "dev": "nodemon server.js --watch .",
+    "lint": "eslint . --cache",
+	  "prestart": "npm install",
+	  "start": "node index.js",
 	  "test": "echo \"Test passed\" && exit 0",
 	  "build": "Build project"
   },
