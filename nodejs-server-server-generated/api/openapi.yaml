@@ -19,6 +19,14 @@ paths:
               schema:
                 type: string
                 example: "It works!"
+    head:
+      summary: "HEAD endpoint for root"
+      description: "Χρησιμοποιείται για να ελέγξετε αν η διαδρομή είναι διαθέσιμη"
+      responses:
+        '200':
+          description: "Η διαδρομή είναι διαθέσιμη"
+        '404':
+          description: "Η διαδρομή δεν βρέθηκε"
 
   /docs:
     get:
