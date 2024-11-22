@@ -3,8 +3,6 @@ info:
   title: Music Social Media API
   description: API for a social media app focused on music interactions.
   version: 1.0.0
-  servers:
-- url: https://mufa-repository-kn51.onrender.com
 paths:
   /:
     get:
