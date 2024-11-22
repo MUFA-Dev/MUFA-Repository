@@ -33,6 +33,5 @@ jobs:
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          host :
           service-id: ${{ secrets.RENDER_SERVICE_ID_DOOJY }}
           api-key: ${{ secrets.RENDER_API_KEY_DOOJY }}
