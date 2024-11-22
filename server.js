@@ -13,7 +13,7 @@ import chalk from "chalk";
 import Sentry from "@sentry/node";
 import helmet from "helmet";
 
-import routes from "./index.js";
+import routes from "./nodejs-server-server-generated/index.js";
 import { setServerTimeout } from "./src/middleware/index.js";
 import { init } from "./src/utils/index.js";
 
