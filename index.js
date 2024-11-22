@@ -22,17 +22,21 @@
 //     console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
 // });
 
-const express = require('express');
-const app = express();
+// const express = require('express');
+// const app = express();
 
-// Use the environment's PORT variable or default to 3000
-const PORT = process.env.PORT || 3000;
+// // Use the environment's PORT variable or default to 3000
+// const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello, world!');
+// });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// // Start the server
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
+import expresss from 'express';
+const app = expresss();
+ 
