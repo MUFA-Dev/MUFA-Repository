@@ -3,6 +3,9 @@ info:
   title: Music Social Media API
   description: API for a social media app focused on music interactions.
   version: 1.0.0
+servers:
+- url: http://localhost:8080
+- url: https://api.example.com  
 paths:
   /user/{user_id}/song:
     get:
