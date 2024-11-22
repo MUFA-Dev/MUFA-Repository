@@ -16,7 +16,12 @@ var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/open
 var app = expressAppConfig.getApp();
 
 app.get('/', (req, res) => {
-    res.status(200).send('It works!');
+    try {
+        res.status(200).send('It works!');
+    } catch (error) {
+        console.error("Error in / route:", error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 const bodyParser = require('body-parser');
