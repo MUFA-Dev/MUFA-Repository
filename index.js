@@ -50,8 +50,3 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-
-app.get('/', (req, res) => {
-  res.send('This is a MUFA backend server test1');
-});
