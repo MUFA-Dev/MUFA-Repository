@@ -22,7 +22,6 @@
 //     console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
 // });
  import express from 'express'; 
- const express = require('express');
  const app = express();
 
 // Use the environment's PORT variable or default to 3000
