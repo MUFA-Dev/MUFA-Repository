@@ -2,7 +2,6 @@
 
 var path = require('path');
 var http = require('http');
-
 var oas3Tools = require('oas3-tools');
 var serverPort = 8080;
 
@@ -17,8 +16,12 @@ var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/open
 var app = expressAppConfig.getApp();
 
 app.get('/', (req, res) => {
-    res.send('It works!');
+    res.status(200).send('It works!');
 });
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 http.createServer(app).listen(serverPort, function () {
     console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
