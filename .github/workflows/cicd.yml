@@ -35,3 +35,5 @@ jobs:
         with:
           service-id: ${{ secrets.RENDER_SERVICE_ID_DOOJY }}
           api-key: ${{ secrets.RENDER_API_KEY_DOOJY }}
+      - name: Confirm Deployment
+        run: echo "Deployment to Render completed successfully"
