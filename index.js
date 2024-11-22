@@ -22,31 +22,31 @@
 //     console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
 // });
 
-// const express = require('express');
-// const app = express();
+const express = require('express');
+const app = express();
 
-// // Use the environment's PORT variable or default to 3000
-// const PORT = process.env.PORT || 3000;
+// Use the environment's PORT variable or default to 3000
+const PORT = process.env.PORT || 3000;
 
-// app.get('/', (req, res) => {
-//   res.send('Hello, world!');
-// });
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
 
-// // Start the server
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
-// const express = require('express');
-// const app = express();
-// const port = process.env.PORT || 3000;
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
 
-// // Define a simple route for the root URL
-// app.get('/', (req, res) => {
-//   res.send('This is a MUFA backend server test');
-// });
+// Define a simple route for the root URL
+app.get('/', (req, res) => {
+  res.send('This is a MUFA backend server test');
+});
 
-// // Start the server
-// app.listen(port, () => {
-//   console.log(`Server is running on port ${port}`);
-// });
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
