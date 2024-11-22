@@ -21,21 +21,21 @@
 //     console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
 //     console.log('Swagger-ui is available on http://localhost:%d/docs', serverPort);
 // });
+ import express from 'express'; 
+ const express = require('express');
+ const app = express();
 
-//  const express = require('express');
-//  const app = express();
+// Use the environment's PORT variable or default to 3000
+const PORT = process.env.PORT || 3000;
 
-// // Use the environment's PORT variable or default to 3000
-// const PORT = process.env.PORT || 3000;
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
 
-// app.get('/', (req, res) => {
-//   res.send('Hello, world!');
-// });
-
-// // Start the server
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 // import express from "express"; // Import express library
 
@@ -110,14 +110,14 @@
 //     console.log(`Server is running on http://localhost:${PORT}`);
 // });
 
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 4000;
+// const express = require('express')
+// const app = express()
+// const port = process.env.PORT || 4000;
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+// app.get('/', (req, res) => {
+//   res.send('Hello World!')
+// })
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+// app.listen(port, () => {
+//   console.log(`Example app listening on port ${port}`)
+// })
