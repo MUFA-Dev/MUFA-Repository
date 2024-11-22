@@ -35,4 +35,3 @@ jobs:
         with:
           service-id: ${{ secrets.RENDER_SERVICE_ID_DOOJY }}
           api-key: ${{ secrets.RENDER_API_KEY_DOOJY }}
-          wait-for-success: true
