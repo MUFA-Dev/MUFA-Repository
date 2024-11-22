@@ -43,10 +43,11 @@ const port = process.env.PORT || 3000;
 
 // Define a simple route for the root URL
 app.get('/', (req, res) => {
-  res.send('Hello, world!');
+  res.send('This is a MUFA backend server test');
 });
 
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
