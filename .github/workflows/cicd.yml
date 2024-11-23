@@ -1,31 +1,30 @@
-name: cicd
+name: CI/CD Pipeline
 
-on: push
+on:
+  push:
+    branches:
+      - Dev--Alex
 
 jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Setup nodejs
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
 
-      - name: Download dependencies
+      - name: Install dependencies
         run: npm install
 
       - name: Run tests
-        run: npm run test
+        run: npm test
 
   cd:
     runs-on: ubuntu-latest
-    needs: ci
     steps:
-      - name: Deploy to Render
-        uses: johnbeynon/render-deploy-action@v0.0.8
-        with:
-          service-id: ${{ secrets.RENDER_SERVICE_ID_ALEX }}
-          api-key: ${{ secrets.RENDER_API_KEY_ALEX }}
+      - name: Deploy application
+        run: npm start
