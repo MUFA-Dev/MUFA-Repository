@@ -1,4 +1,4 @@
-name: ci
+name: cicd
 
 on: push
 
@@ -6,9 +6,26 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      -name: Checkout repo
-       uses: actions/checkout@v3
-      -name: install dependencies
-       run: npm install
-      -name: Run test
-       run: npm test
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Setup nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Download dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm run test
+
+  cd:
+    runs-on: ubuntu-latest
+    needs: ci
+    steps:
+      - name: Deploy to Render
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
