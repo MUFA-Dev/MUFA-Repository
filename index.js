@@ -16,11 +16,6 @@ var options = {
 var expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/openapi.yaml'), options);
 var app = expressAppConfig.getApp();
 
-// Define a simple route for the root URL
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
-
 // Initialize the Swagger middleware
 http.createServer(app).listen(serverPort, function () {
     console.log('Your server is listening on port %d (http://localhost:%d)', serverPort, serverPort);
