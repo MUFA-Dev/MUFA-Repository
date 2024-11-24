@@ -4,10 +4,10 @@
   "description": "API for a social media app focused on music interactions.",
   "main": "index.js",
   "scripts": {
-	  "prestart": "npm install",
-	  "start": "node index.js",
-	  "test": "echo \"Test passed\" && exit 0"
-	  "build": "Build project"
+	"prestart": "npm install",
+	"start": "node index.js",
+	"test": "echo \"Test passed\" && exit 0",
+	"build": "Build project"
   },
   "keywords": [
     "swagger"
@@ -17,7 +17,6 @@
   "dependencies": {
     "connect": "^3.2.0",
     "js-yaml": "^3.3.0",
-    "oas3-tools": "^2.2.3",
-    "express": "^4.18.2"
+    "oas3-tools": "^2.2.3"
   }
 }
