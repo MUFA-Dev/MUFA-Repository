@@ -1,3 +1,5 @@
 .env
 node_modules
 coverage
+.swagger-codegen-ignore
+.swagger-codegen/VERSION
