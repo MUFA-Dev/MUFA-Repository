@@ -38,7 +38,7 @@
 import path from 'path';
 import http from 'http';
 import oas3Tools from 'oas3-tools';
-
+const __dirname = "/opt/render/project/src";
 var serverPort = 8080;
 // swaggerRouter configuration
 var options = {
