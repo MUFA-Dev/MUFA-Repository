@@ -20,7 +20,7 @@
     "oas3-tools": "^2.2.3"
   },
   "devDependencies": {
-    "ava": "^6.2.0",
+    "ava": "^5.3.1",
     "c8": "^10.1.2",
     "got": "^14.4.5",
     "test-listen": "^1.1.0"
