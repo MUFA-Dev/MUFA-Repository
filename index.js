@@ -39,7 +39,6 @@ import path from 'path';
 import http from 'http';
 import oas3Tools from 'oas3-tools';
 
-var oas3Tools = require('oas3-tools');
 var serverPort = 8080;
 
 // swaggerRouter configuration
