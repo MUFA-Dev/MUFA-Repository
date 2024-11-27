@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "API for a social media app focused on music interactions.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "prestart": "npm install",
     "start": "node index.js",
