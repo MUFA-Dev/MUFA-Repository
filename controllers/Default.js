@@ -1,7 +1,19 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
-var Default = require('../service/DefaultService');
+var Default = require('../service/DefaultService.js');
+
+module.exports.apiGET = function apiGET(req, res, next) {
+  Default.apiGET()
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
+
 
 module.exports.userUser_idFollowingFollowing_idDELETE = function userUser_idFollowingFollowing_idDELETE (req, res, next, user_id, following_id) {
   Default.userUser_idFollowingFollowing_idDELETE(user_id, following_id)
