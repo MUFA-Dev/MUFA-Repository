@@ -1,7 +1,7 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
-var Default = require('../service/DefaultService.js');
+var Default = require('../service/DefaultService');
 
 module.exports.userUser_idFollowingFollowing_idDELETE = function userUser_idFollowingFollowing_idDELETE (req, res, next, user_id, following_id) {
   Default.userUser_idFollowingFollowing_idDELETE(user_id, following_id)
