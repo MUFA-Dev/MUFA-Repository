@@ -3,6 +3,7 @@ import test from 'ava';
 import got from 'got';
 import app from '../index.js';
 
+
 test.before(async (t) => {
     t.context.server = createServer(app);
     const server = t.context.server.listen();
