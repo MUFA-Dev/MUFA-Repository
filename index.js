@@ -35,8 +35,9 @@
 //-------------------------------------------------------
 'use strict';
 
-var path = require('path');
-var http = require('http');
+import path from 'path';
+import http from 'http';
+import oas3Tools from 'oas3-tools';
 
 var oas3Tools = require('oas3-tools');
 var serverPort = 8080;
