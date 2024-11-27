@@ -3,7 +3,32 @@ info:
   title: Music Social Media API
   description: API for a social media app focused on music interactions.
   version: 1.0.0
-paths:             
+paths:
+  /:
+    get:
+      summary: Root endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Hello, world!
+  /api:
+    get:
+      summary: API endpoint
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: It works!
   /user/{user_id}/song:
     get:
       summary: Search for a song
