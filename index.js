@@ -21,9 +21,9 @@ const expressAppConfig = oas3Tools.expressAppConfig(path.join(__dirname, 'api/op
 const app = expressAppConfig.getApp();
 
 // Define a simple route for the root URL
-app.get('/', (req, res) => {
-  res.send('Hello, world!');
-});
+// app.get('/', (req, res) => {
+//   res.send('Hello, world!');
+// });
 
 // Initialize the Swagger middleware
 createServer(app).listen(serverPort, function () {
