@@ -40,7 +40,6 @@ import http from 'http';
 import oas3Tools from 'oas3-tools';
 
 var serverPort = 8080;
-
 // swaggerRouter configuration
 var options = {
     routing: {

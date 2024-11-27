@@ -1,7 +1,7 @@
 import { createServer } from 'http';
 import test from 'ava';
 import got from 'got';
-import app from '../index.js';
+import app from '../index.cjs';
 
 
 test.before(async (t) => {
