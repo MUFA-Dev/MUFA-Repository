@@ -1,5 +1,12 @@
 'use strict';
 
+module.exports.apiGET = function apiGET() {
+  return new Promise(function (resolve, reject) {
+    resolve({
+      message: 'It works!'
+    });
+  });
+};
 
 /**
  * Unfollow a user
