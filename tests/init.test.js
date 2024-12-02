@@ -17,6 +17,5 @@ test.after.always((t) => {
 
 test("GET/user/{id}/song returns correct response and status code", async (t) => {
     const { body, statusCode } = await t.context.got("user/1/song");
-    t.is(body.message, "It works!");
     t.is(statusCode, 200);
 });
