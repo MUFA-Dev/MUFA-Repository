@@ -1,5 +1,4 @@
 import "dotenv/config";
-
 import http from "node:http";
 
 import test from "ava";
