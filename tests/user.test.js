@@ -20,7 +20,7 @@ test("GET/user/{id}/song returns correct response and status code", async (t) =>
     const response = {
         writeHead: (statusCode, headers) => {},
         end: (body) => {response.body = body;}};
-    await userUser_idSongGET(null,response,null,1,"tak", null,null,null,null);
+    await userUser_idSongGET(null,response,null,1,"Nyxterides", null,null,null,null);
     const parsedBody = JSON.parse(response.body);
     console.log(parsedBody);
     t.is(parsedBody.statusCode, 200);
