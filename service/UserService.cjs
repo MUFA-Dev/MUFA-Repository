@@ -16,7 +16,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
     "id" : 2,
     "title" : "No Surprises"
   } ];
-      if (user_id > 1 && user_id < 1000) {
+      if (user_id > 0 && user_id < 1000) {
         resolve({
           body: examples[Object.keys(examples)[0]],
           statusCode: 200
@@ -114,7 +114,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
 
   exports.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT = function(user_id,following_id,post_id,song_id) {
     return new Promise(function(resolve, reject) {
-      if (user_id > 1 && user_id < 1000) {
+      if (user_id > 0 && user_id < 1000) {
         resolve({
           statusCode: 200
         });
@@ -124,7 +124,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           message: "Something went wrong claiming your account details"
         });
       }
-      if(following_id > 1 && following_id < 1000){
+      if(following_id > 0 && following_id < 1000){
         resolve({
           statusCode: 200
         });
@@ -135,7 +135,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           
         });
       }
-      if(post_id > 1 && post_id < 5000){
+      if(post_id > 0 && post_id < 5000){
         resolve({
           statusCode: 200
         });
@@ -145,7 +145,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           message: "Can not retrieve post"
         });
       }
-      if(song_id > 1 && song_id < 100000){
+      if(song_id > 0 && song_id < 100000){
         resolve({
           statusCode: 200
         });
@@ -160,7 +160,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
 
   exports.userUser_idFollowingFollowing_idPostPost_idPUT = function(user_id,following_id,post_id,like,comment,report) {
     return new Promise(function(resolve, reject) {
-      if (user_id > 1 && user_id < 1000) {
+      if (user_id > 0 && user_id < 1000) {
         resolve({
           statusCode: 200
         });
@@ -180,7 +180,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           message: "You are not following this user"
         });
       }
-      if(post_id > 1 && post_id < 5000){
+      if(post_id > 0 && post_id < 5000){
         resolve({
           statusCode: 200
         });

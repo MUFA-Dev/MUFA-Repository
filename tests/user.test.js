@@ -20,7 +20,17 @@ test("GET/user/{id}/song returns correct response and status code", async (t) =>
     const response = {
         writeHead: (statusCode, headers) => {},
         end: (body) => {response.body = body;}};
-    await userUser_idSongGET(null,response,null,1,"Nyxterides", null,null,null,null);
+    await userUser_idSongGET(null,response,null,2,"Nyxterides", null,null,null,null);
+    const parsedBody = JSON.parse(response.body);
+    console.log(parsedBody);
+    t.is(parsedBody.statusCode, 200);
+});
+
+test("PUT/user/{id}/following/{id}/song/{id} returns correct response and status code", async (t) => {
+    const response = {
+        writeHead: (statusCode, headers) => {},
+        end: (body) => {response.body = body;}};
+    await userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(null,response,null,2,100,3,2);
     const parsedBody = JSON.parse(response.body);
     console.log(parsedBody);
     t.is(parsedBody.statusCode, 200);
