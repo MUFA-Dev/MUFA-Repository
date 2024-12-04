@@ -4,10 +4,10 @@
   "description": "API for a social media app focused on music interactions.",
   "main": "index.js",
   "scripts": {
-	"prestart": "npm install",
-	"start": "node index.js",
-	"test": "c8 ava",
-	"build": "Build project"
+    "prestart": "npm install",
+    "start": "node index.js",
+    "test": "c8 ava",
+    "build": "Build project"
   },
   "keywords": [
     "swagger"
@@ -18,5 +18,9 @@
     "connect": "^3.2.0",
     "js-yaml": "^3.3.0",
     "oas3-tools": "^2.2.3"
+  },
+  "devDependencies": {
+    "ava": "^6.2.0",
+    "c8": "^10.1.2"
   }
 }
