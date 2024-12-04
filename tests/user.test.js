@@ -5,6 +5,7 @@ import got from "got";
 import listen from "test-listen";
 import app from "../index.js";
 import {userUser_idSongGET} from "../controllers/User.cjs";
+import {userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT} from "../controllers/User.cjs";
 
 test.before(async (t) => {
     t.context.server = createServer(app);

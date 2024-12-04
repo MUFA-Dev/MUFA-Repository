@@ -119,7 +119,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           statusCode: 200
         });
       } else {
-        resolve({
+        reject({
           statusCode: 400,
           message: "Something went wrong claiming your account details"
         });
@@ -129,7 +129,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           statusCode: 200
         });
       } else {  
-        resolve({
+        reject({
           statusCode: 400,
           message: "The user does not exists, or they have blocked you"
           
@@ -140,7 +140,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           statusCode: 200
         });
       } else {  
-        resolve({
+        reject({
           statusCode: 400,
           message: "Can not retrieve post"
         });
@@ -150,7 +150,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           statusCode: 200
         });
       } else {  
-        resolve({
+        reject({
           statusCode: 404,
           message: "Something went wrong"
         });
@@ -165,7 +165,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           statusCode: 200
         });
       } else {
-        resolve({
+        reject({
           statusCode: 400,
           message: "There was something wrong in claiming your account details"
         });
@@ -175,7 +175,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           statusCode: 200
         });
       } else {  
-        resolve({
+        reject({
           statusCode: 400,
           message: "You are not following this user"
         });
@@ -185,7 +185,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           statusCode: 200
         });
       } else {  
-        resolve({
+        reject({
           statusCode: 400,
           message: "This post does not exist"
         });
@@ -196,7 +196,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           message: "Post was liked"
         });
       } else {  
-        resolve({
+        reject({
           statusCode: 400,
           message: "There was an error liking this post"
         });
@@ -206,7 +206,7 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           message: "Comment was posted"
         });
       } else {
-        resolve({
+        reject({
           statusCode: 400,
           message: "There was an error posting your comment"
         });
@@ -216,12 +216,12 @@ exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,s
           message: "Post was reported"
         });
       } else {
-        resolve({
+        reject({
           statusCode: 400,
           message: "There was an error reporting this post"
         });
       }
-      resolve({
+      reject({
         statusCode: 404,
         message: "Something went wrong"
       });
