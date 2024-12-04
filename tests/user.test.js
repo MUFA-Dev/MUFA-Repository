@@ -46,15 +46,6 @@ test("GET/user/{id}/song with invalid userId search", async (t) => {
     t.is(parsedBody.statusCode, 400);
 });
 
-// test("PUT/user/{id}/following/{id}/song/{id} returns correct response and status code", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => {response.body = body;}};
-//     await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,2,100,3,2);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.statusCode, 200);
-// });
 
 test("PUT /user/{id}/following/{id}/post/{id} - Like a post with valid inputs", async (t) => {
     const response = {
