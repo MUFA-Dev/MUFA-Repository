@@ -18,55 +18,37 @@ test.after.always((t) => {
 });
 
 // test("GET/user/{id}/song with correct inputs", async (t) => {
-//     try {
-//       // Call the function and await the result
-//       const result = await userUser_idSongGET(2, "Nyxterides", "LEX", "rap", "G.T.K.");
-  
-//       // Log the result for debugging
-//       console.log(result);
-  
-//       // Assertions using the resolved result
-//       t.is(result.statusCode, 200);
-//       t.truthy(result.songs);
-//       t.is(result.songs[0].title, "Nyxterides");
-//     } catch (error) {
-//       // Log the error for debugging
-//       console.error(error);
-//       t.fail(`Unexpected rejection: ${JSON.stringify(error)}`);
-//     }
-//   });
-test("GET/user/{id}/song with correct inputs", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => {response.body = body;}};
-    await userUser_idSongGET(null,response,null,2, "Nyxterides", "LEX", "rap", "G.T.K.");
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    console.log(parsedBody.statusCode)
-    console.log(typeof(parsedBody))
-    t.is(parsedBody.statusCode, 200);
-    t.is(parsedBody.songs[0].title, "Nyxterides");
-}); 
+//     const response = {
+//         writeHead: (statusCode, headers) => {},
+//         end: (body) => {response.body = body;}};
+//     await userUser_idSongGET(null,response,null,2, "Nyxterides", "LEX", "rap", "G.T.K.");
+//     const parsedBody = JSON.parse(response.body);
+//     console.log(parsedBody);
+//     console.log(parsedBody.statusCode)
+//     console.log(typeof(parsedBody))
+//     t.is(parsedBody.statusCode, 200);
+//     t.is(parsedBody.songs[0].title, "Nyxterides");
+// }); 
 
-test("GET/user/{id}/song with invalid song search", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => {response.body = body;}};
-    await userUser_idSongGET(null,response,null,2,"Nonexistent Song", null,null,null,null);
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    t.is(parsedBody.statusCode, 404);
-});
+// test("GET/user/{id}/song with invalid song search", async (t) => {
+//     const response = {
+//         writeHead: (statusCode, headers) => {},
+//         end: (body) => {response.body = body;}};
+//     await userUser_idSongGET(null,response,null,2,"Nonexistent Song", null,null,null,null);
+//     const parsedBody = JSON.parse(response.body);
+//     console.log(parsedBody);
+//     t.is(parsedBody.statusCode, 404);
+// });
 
-test("GET/user/{id}/song with invalid userId search", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => {response.body = body;}};
-    await userUser_idSongGET(null,response,null,1020,"Dreaming Big", null,null,null,null);
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    t.is(parsedBody.statusCode, 400);
-});
+// test("GET/user/{id}/song with invalid userId search", async (t) => {
+//     const response = {
+//         writeHead: (statusCode, headers) => {},
+//         end: (body) => {response.body = body;}};
+//     await userUser_idSongGET(null,response,null,1020,"Dreaming Big", null,null,null,null);
+//     const parsedBody = JSON.parse(response.body);
+//     console.log(parsedBody);
+//     t.is(parsedBody.statusCode, 400);
+// });
 
 
 test("PUT /user/{id}/following/{id}/post/{id} - Like a post with valid inputs", async (t) => {

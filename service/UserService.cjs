@@ -56,45 +56,82 @@ exports.userUser_idSongGET = function (user_id, song_name, song_artist, song_gen
   });
 };
 
+exports.userUser_idFollowingFollowing_idPostPost_idPUT = function (user_id, following_id, post_id, like, comment, report) {
+  return new Promise(function (resolve, reject) {
+    // Sample data: list of posts
+    const posts = [
+      {
+        userId: 1,
+        followingId: 100,
+        postId: 3,
+        interactions: {
+          likes: 5,
+          comments: ["Great post!", "Interesting thoughts."],
+          reports: 0,
+        },
+      },
+      {
+        userId: 2,
+        followingId: 101,
+        postId: 4,
+        interactions: {
+          likes: 10,
+          comments: [],
+          reports: 1,
+        },
+      },
+    ];
 
+    // Validate inputs
+    if (user_id <= 0 || user_id >= 1000) {
+      return reject({
+        statusCode: 400,
+        message: "Invalid user_id",
+      });
+    }
+    if (following_id <= 0 || following_id >= 1000) {
+      return reject({
+        statusCode: 400,
+        message: "Invalid following_id",
+      });
+    }
 
+    // Find the post that matches the user_id, following_id, and post_id
+    const post = posts.find(
+      (p) =>
+        p.userId === user_id &&
+        p.followingId === following_id &&
+        p.postId === post_id
+    );
 
-  exports.userUser_idFollowingFollowing_idPostPost_idPUT = function(user_id, following_id, post_id, like, comment, report) {
-    return new Promise(function(resolve, reject) {
-        // Find the post by user_id, following_id, and post_id
-        const post = mockPosts.find(p => p.postId === post_id && p.userId === user_id && p.followingId === following_id);
+    if (post) {
+      // Handle likes: only increment if like is true
+      if (like !== null && like !== undefined) {
+        post.interactions.likes += like ? 1 : 0;
+      }
 
-        // If post is found
-        if (post) {
-            // Handle likes: only increment if like is true
-            if (like !== null && like !== undefined) {
-                post.interactions.likes += like ? 1 : 0;
-            }
+      // Handle comments: only add if a comment is provided
+      if (comment) {
+        post.interactions.comments.push(comment);
+      }
 
-            // Handle comments: only add if comment is provided
-            if (comment) {
-                post.interactions.comments.push(comment);
-            }
+      // Handle reports: increment reports if report is true
+      if (report) {
+        post.interactions.reports += 1;
+      }
 
-            // Handle reports: increment reports if report is true
-            if (report) {
-                post.interactions.reports += 1;
-            }
-
-            // Return successful response with updated post
-            resolve({
-                statusCode: 200,
-                body: JSON.stringify({
-                    message: "Interaction successful",
-                    post: post
-                })
-            });
-        } else {
-            // If post/user/following doesn't match
-            reject({
-                statusCode: 404,
-                body: JSON.stringify({ message: "Post not found." })
-            });
-        }
-    });
+      // Return successful response with the updated post
+      resolve({
+        statusCode: 200,
+        message: "Interaction successful",
+        post,
+      });
+    } else {
+      // If no matching post is found
+      reject({
+        statusCode: 404,
+        message: "Post not found",
+      });
+    }
+  });
 };
