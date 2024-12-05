@@ -1,4 +1,4 @@
-export const mockPosts = [
+const mockPosts = [
     {
       userId: 1,
       followingId: 100,
@@ -21,4 +21,6 @@ export const mockPosts = [
     },
   ];
 
-  
+  module.exports = {
+    mockPosts
+  };

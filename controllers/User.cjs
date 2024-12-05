@@ -2,8 +2,8 @@
 
 var utils = require('../utils/writer.cjs');
 var User = require('../service/UserService.cjs');
-
-module.exports.userUser_idSongGET = async function userUser_idSongGET (req, res, next, user_id, song_name, song_artist, song_genre, song_album) {
+  //GET user/{id}/song
+  module.exports.userUser_idSongGET = async function userUser_idSongGET (req, res, next, user_id, song_name, song_artist, song_genre, song_album) {
     await User.userUser_idSongGET(user_id, song_name, song_artist, song_genre, song_album)
       .then(function (response) {
         utils.writeJson(res, response);
@@ -12,7 +12,7 @@ module.exports.userUser_idSongGET = async function userUser_idSongGET (req, res,
         utils.writeJson(res, response);
       });
   };
-  
+  //PUT user/{user_id}/following/{following_id}/post/{post_id}/song/{song_id}
   module.exports.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT =async function userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT (req, res, next, user_id, following_id, post_id, song_id) {
     await User.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(user_id, following_id, post_id, song_id)
       .then(function (response) {
@@ -22,7 +22,7 @@ module.exports.userUser_idSongGET = async function userUser_idSongGET (req, res,
         utils.writeJson(res, response);
       });
   };
-
+  //PUT user/{user_id}/following/{following_id}/post/{post_id}
   module.exports.userUser_idFollowingFollowing_idPostPost_idPUT =async function userUser_idFollowingFollowing_idPostPost_idPUT (req, res, next, user_id, following_id, post_id, like, comment, report) {
    await User.userUser_idFollowingFollowing_idPostPost_idPUT(user_id, following_id, post_id, like, comment, report)
       .then(function (response) {
