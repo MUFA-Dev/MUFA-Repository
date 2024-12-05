@@ -2,11 +2,11 @@
   "name": "music-social-media-api",
   "version": "1.0.0",
   "description": "API for a social media app focused on music interactions.",
-  "main": "index.js",
+  "main": "index.cjs",
   "type": "module",
   "scripts": {
     "prestart": "npm install",
-    "start": "node index.js",
+    "start": "node index.cjs",
     "test": "c8 ava",
     "build": "Build project"
   },
