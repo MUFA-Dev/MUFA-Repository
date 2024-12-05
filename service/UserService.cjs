@@ -1,7 +1,4 @@
 'use strict';
-const mockSongs = require('../MockSongs.cjs');
-const mockPosts = require('../MockPosts.cjs');
-
 exports.userUser_idSongGET = function (user_id, song_name, song_artist, song_genre, song_album) {
   return new Promise((resolve, reject) => {
     // Inline mock songs data
