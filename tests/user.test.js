@@ -42,42 +42,45 @@ test("GET/user/{id}/song with correct inputs", async (t) => {
     await userUser_idSongGET(null,response,null,2, "Nyxterides", "LEX", "rap", "G.T.K.");
     const parsedBody = JSON.parse(response.body);
     console.log(parsedBody);
-    t.is(response.statusCode, 200);
-    t.is(response.songs[0].title, "Nyxterides");
+    console.log(parsedBody.statusCode)
+    console.log(typeof(parsedBody))
+    t.is(parsedBody.statusCode, 200);
+    t.is(parsedBody.songs[0].title, "Nyxterides");
 }); 
 
-// test("GET/user/{id}/song with invalid song search", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => {response.body = body;}};
-//     await userUser_idSongGET(null,response,null,2,"Nonexistent Song", null,null,null,null);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.statusCode, 404);
-// });
-// test("GET/user/{id}/song with invalid userId search", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => {response.body = body;}};
-//     await userUser_idSongGET(null,response,null,1020,"Dreaming Big", null,null,null,null);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.statusCode, 400);
-// });
+test("GET/user/{id}/song with invalid song search", async (t) => {
+    const response = {
+        writeHead: (statusCode, headers) => {},
+        end: (body) => {response.body = body;}};
+    await userUser_idSongGET(null,response,null,2,"Nonexistent Song", null,null,null,null);
+    const parsedBody = JSON.parse(response.body);
+    console.log(parsedBody);
+    t.is(parsedBody.statusCode, 404);
+});
+
+test("GET/user/{id}/song with invalid userId search", async (t) => {
+    const response = {
+        writeHead: (statusCode, headers) => {},
+        end: (body) => {response.body = body;}};
+    await userUser_idSongGET(null,response,null,1020,"Dreaming Big", null,null,null,null);
+    const parsedBody = JSON.parse(response.body);
+    console.log(parsedBody);
+    t.is(parsedBody.statusCode, 400);
+});
 
 
-// test("PUT /user/{id}/following/{id}/post/{id} - Like a post with valid inputs", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => { response.body = body; },
-//     };
-//     await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,1, 100, 3, true, null, null);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.statusCode, 200);
-//     t.is(parsedBody.body.message, "Interaction successful");
-//     t.is(parsedBody.body.post.interactions.likes, 6); // Should increment by 1
-// });
+test("PUT /user/{id}/following/{id}/post/{id} - Like a post with valid inputs", async (t) => {
+    const response = {
+        writeHead: (statusCode, headers) => {},
+        end: (body) => { response.body = body; },
+    };
+    await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,1, 100, 3, true, null, null);
+    const parsedBody = JSON.parse(response.body);
+    console.log(parsedBody);
+    t.is(parsedBody.statusCode, 200);
+    t.is(parsedBody.body.message, "Interaction successful");
+    t.is(parsedBody.body.post.interactions.likes, 6); // Should increment by 1
+});
 
 // test("PUT /user/{id}/following/{id}/post/{id} - Comment on a post with valid inputs", async (t) => {
 //     const response = {
