@@ -18,11 +18,16 @@ jobs:
         with:
           node-version: 16
 
-      - name: Download dependencies
-        run: npm install
+      - name: Clean and install dependencies
+        run: |
+          npm ci
+          npm install foreground-child
+
+      - name: Verify dependencies
+        run: npm ls
 
       - name: Run tests
-        run: npm run test
+        run: npx c8 ava
 
   cd:
     runs-on: ubuntu-latest
