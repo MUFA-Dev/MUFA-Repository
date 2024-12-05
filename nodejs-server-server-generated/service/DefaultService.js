@@ -202,29 +202,29 @@ exports.userUser_idPostPost_idDELETE = function(user_id,post_id) {
  * song_album String  (optional)
  * returns List
  **/
-exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,song_album) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = [ {
-  "artist" : "artist",
-  "album" : "album",
-  "genre" : "genre",
-  "id" : 0,
-  "title" : "title"
-}, {
-  "artist" : "artist",
-  "album" : "album",
-  "genre" : "genre",
-  "id" : 0,
-  "title" : "title"
-} ];
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
-}
+// exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,song_album) {
+//   return new Promise(function(resolve, reject) {
+//     var examples = {};
+//     examples['application/json'] = [ {
+//   "artist" : "artist",
+//   "album" : "album",
+//   "genre" : "genre",
+//   "id" : 0,
+//   "title" : "title"
+// }, {
+//   "artist" : "artist",
+//   "album" : "album",
+//   "genre" : "genre",
+//   "id" : 0,
+//   "title" : "title"
+// } ];
+//     if (Object.keys(examples).length > 0) {
+//       resolve(examples[Object.keys(examples)[0]]);
+//     } else {
+//       resolve();
+//     }
+//   });
+// }
 
 
 /**
