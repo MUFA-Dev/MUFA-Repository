@@ -12,11 +12,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-      - name: Clean and install dependencies
-        run: |
-          npm ci
-          npm install foreground-child
-      name: Verify dependencies
+      - name: Install dependencies
+        run: 
+          npm install 
+      - name: Verify dependencies
         run: npm ls
 
       - name: Run test
