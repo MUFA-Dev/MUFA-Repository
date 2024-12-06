@@ -1,20 +1,21 @@
 import test from 'ava';
 import request from 'got';
 import listen from 'test-listen';
-import { app } from "../index.js";
+import { createRequire } from 'module';
 
-/*const test = require('ava');
-const request = require('got');
-const listen = require('test-listen');
-const app = require("../index.js"); // Χρησιμοποίησε require αντί για import
-*/
+// Χρησιμοποιούμε το createRequire για να φορτώσουμε το CommonJS module (index.cjs)
+const require = createRequire(import.meta.url);
+const { app } = require('../index.js'); // Εδώ παίρνουμε το app από το index.cjs
+
 test.before(async (t) => {
-    t.context.server = app.listen();
-    t.context.prefixUrl = await listen(t.context.server);
+    t.context.server = app.listen(); // Ξεκινήστε τον server
+    t.context.prefixUrl = await listen(t.context.server); // Δημιουργήστε URL
 });
 
 test.after.always((t) => {
-    t.context.server.close();
+    if (t.context.server) {
+        t.context.server.close(); // Κλείσιμο server
+    }
 });
 
 test('Happy path: valid user_id and body', async (t) => {
@@ -50,5 +51,3 @@ test('Unhappy path: Missing user_id', async (t) => {
     t.is(error.response.statusCode, 400);
     t.is(error.response.body.message, 'Invalid request: user_id or body is missing.');
 });
-
-// Πρόσθεσε και τα άλλα 2 tests για τα υπόλοιπα "unhappy" cases
