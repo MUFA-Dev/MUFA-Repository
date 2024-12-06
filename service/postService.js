@@ -1,13 +1,4 @@
-/**
- * Create a post
- *
- * body Post 
- * song_lyrics String  (optional)
- * song_album_cover String  (optional)
- * song_canvas String  (optional)
- * user_id Integer 
- * no response value expected for this operation
- **/
+
 'use strict';
 exports.userUser_idPostPOST = function(body,song_lyrics,song_album_cover,song_canvas,user_id) {
   return new Promise(function(resolve, reject) {
@@ -29,7 +20,7 @@ exports.userUser_idPostPOST = function(body,song_lyrics,song_album_cover,song_ca
       });
     }
 
-    if (typeof song_album_cover !== 'string' || !song_album_cover.startsWith('http')) {
+    if (typeof (song_album_cover) !== 'string' || !song_album_cover.startsWith('http')) {
       return reject({
         statusCode: 400,
         message: 'Invalid song_album_cover. It must be a valid URL.',
@@ -37,22 +28,13 @@ exports.userUser_idPostPOST = function(body,song_lyrics,song_album_cover,song_ca
     }
 
     
-    if (typeof song_canvas !== 'object' || Array.isArray(song_canvas)) {
+    if (typeof (song_canvas) !== 'object' || Array.isArray(song_canvas)) {
       return reject({
         statusCode: 400,
         message: 'Invalid song_canvas. It must be an object.',
       });
     }
-
-    
-     if (typeof song_lyrics !== 'string' ) {
-      return reject({
-        statusCode: 400,
-        message: 'Invalid song_lyrics. It must be a string.',
-      });
-    }
-
-    
+  
     resolve({
       statusCode: 201,
       message: {

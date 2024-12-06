@@ -16,7 +16,7 @@ test.after.always((t) => {
   t.context.server.close();
 });
 
-// Test case 1: Valid input
+// Test 1: Valid input
 test("POST /user/{user_id} with valid inputs", async (t) => {
   const response = {
     writeHead: (statusCode, headers) => {},
@@ -42,7 +42,7 @@ test("POST /user/{user_id} with valid inputs", async (t) => {
   t.is(parsedBody.message.body.song_title, body.song_title);
 });
 
-// Test case 2: Invalid user_id
+// Test 2: Invalid userid
 test("POST /user/{user_id} with invalid user_id", async (t) => {
   const response = {
     writeHead: (statusCode, headers) => {},
@@ -136,4 +136,7 @@ test("POST /user/{user_id} with invalid song_canvas", async (t) => {
   console.log(parsedBody);
   t.is(parsedBody.statusCode, 400);
   t.is(parsedBody.message, "Invalid song_canvas. It must be an object.");
+
+
+
 });
