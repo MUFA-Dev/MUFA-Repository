@@ -6,7 +6,7 @@
  
   "scripts": {
     "prestart": "npm install",
-    "start": "node index.cjs",
+    "start": "node index.js",
     "test": "c8 ava",
     "build": "Build project"
   },
