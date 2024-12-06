@@ -4,7 +4,7 @@ import test from "ava";
 import got from "got";
 import listen from "test-listen";
 import app from "../index.js";
-import { userUser_idPostPOST} from "../controllers/post.js";
+import { userUser_idPostPOST} from "../controllers/user.js";
 
 test.before(async (t) => {
   t.context.server = createServer(app);
