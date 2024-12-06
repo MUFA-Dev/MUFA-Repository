@@ -138,5 +138,4 @@ test("POST /user/{user_id} with invalid song_canvas", async (t) => {
   t.is(parsedBody.message, "Invalid song_canvas. It must be an object.");
 
 
-
 });
