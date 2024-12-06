@@ -8,6 +8,7 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
+
       - name: Setup nodejs
         uses: actions/setup-node@v2
         with:
@@ -15,6 +16,8 @@ jobs:
       - name: Install dependencies
         run: 
           npm install 
+      - name: Fix c8 permissions
+        run: chmod +x ./node_modules/.bin/c8    
       - name: Verify dependencies
         run: npm ls
 
