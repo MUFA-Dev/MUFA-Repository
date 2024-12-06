@@ -1,4 +1,4 @@
-name: ci
+name: cicd
 
 on: push
 
@@ -12,9 +12,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
-      - name: Install dependencies
-        run: npm install
-        
+      - name: Clean and install dependencies
+        run: |
+          npm ci
+          npm install foreground-child
+      name: Verify dependencies
+        run: npm ls
+          
       - name: Run test
         run: npm test
         
