@@ -16,8 +16,12 @@ jobs:
       - name: Install dependencies
         run: 
           npm install 
+      - name: Fix ava permissions
+        run: chmod +x ./node_modules/.bin/ava  
+
       - name: Fix c8 permissions
         run: chmod +x ./node_modules/.bin/c8    
+        
       - name: Verify dependencies
         run: npm ls
 
