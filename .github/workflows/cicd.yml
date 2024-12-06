@@ -1,4 +1,4 @@
-name: cicd
+name: ci
 
 on: push
 
@@ -18,7 +18,7 @@ jobs:
           npm install foreground-child
       name: Verify dependencies
         run: npm ls
-          
+
       - name: Run test
         run: npm test
         
