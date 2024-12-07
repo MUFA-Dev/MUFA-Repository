@@ -32,4 +32,13 @@ var User = require('../service/UserService.cjs');
         utils.writeJson(res, response);
       });
   };
-  
+  //DEL user/{id}/post/{id}
+  module.exports.userUser_idPostPost_idDELETE =async function userUser_idPostPost_idDELETE (req, res, next, user_id, post_id) {
+    await User.userUser_idPostPost_idDELETE(user_id, post_id)
+      .then(function (response) {
+        utils.writeJson(res, response);
+      })
+      .catch(function (response) {
+        utils.writeJson(res, response);
+      });
+  };

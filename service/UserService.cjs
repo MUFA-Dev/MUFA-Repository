@@ -132,3 +132,133 @@ exports.userUser_idFollowingFollowing_idPostPost_idPUT = function (user_id, foll
     }
   });
 };
+
+
+exports.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT = function(user_id,following_id,post_id,song_id) {
+  return new Promise(function (resolve, reject) {
+    // Sample data: list of posts
+    const posts = [
+      {
+        userId: 1,
+        followingId: 100,
+        postId: 3,
+        interactions: {
+          likes: 5,
+          comments: ["Great post!", "Interesting thoughts."],
+          reports: 0,
+        },
+        songId: 1,
+      },
+      {
+        userId: 2,
+        followingId: 101,
+        postId: 4,
+        interactions: {
+          likes: 10,
+          comments: [],
+          reports: 1,
+        },
+        songId: 2,
+
+      },
+    ];
+
+    // Validate inputs
+    if (user_id <= 0 || user_id >= 1000) {
+      return reject({
+        statusCode: 400,
+        message: "Invalid user_id",
+      });
+    }
+    if (following_id <= 0 || following_id >= 1000) {
+      return reject({
+        statusCode: 400,
+        message: "Invalid following_id",
+      });
+    }
+
+    // Find the post that matches the user_id, following_id, and post_id
+    const post = posts.find(
+      (p) =>
+        p.userId === user_id &&
+        p.followingId === following_id &&
+        p.postId === post_id&&
+        p.songId === song_id
+    );
+
+    if (post) {
+      // Check if userwants to add song to spotify
+      if (song_id === post.songId) {
+        resolve({
+          statusCode: 200,
+          message: "Song has been addeed to spotify",
+          post,
+        });
+      }else{
+        reject({
+          statusCode: 404,
+          message: "Song not found",
+        });
+      }
+    } else {
+      // If no matching post
+      reject({
+        statusCode: 404,
+        message: "Post not found",
+      });
+    }
+  });
+};
+
+exports.userUser_idPostPost_idDELETE = function (user_id, post_id) {
+  return new Promise((resolve, reject) => {
+    const posts = [
+      {
+        userId: 1,
+        followingId: 100,
+        postId: 3,
+        interactions: {
+          likes: 5,
+          comments: ["Great post!", "Interesting thoughts."],
+          reports: 0,
+        },
+        songId: 1,
+      },
+      {
+        userId: 2,
+        followingId: 101,
+        postId: 4,
+        interactions: {
+          likes: 10,
+          comments: [],
+          reports: 1,
+        },
+        songId: 2,
+      },
+    ];
+    exports.posts = posts;
+    // Validate inputs
+    if (!user_id || !post_id) {
+      return reject({
+        statusCode: 400,
+        message: "Invalid user_id or post_id",
+      });
+    }
+
+    // Find the post
+    const postIndex = posts.findIndex((p) => p.userId === user_id && p.postId === post_id);
+    if (postIndex !== -1) {
+      const post = posts.splice(postIndex, 1)[0];
+      resolve({
+        statusCode: 200,
+        message: "Post has been deleted. Remaining posts:",
+        posts,
+      });
+    } else {
+      reject({
+        statusCode: 404,
+        message: "Post not found",
+      });
+    }
+  });
+};
