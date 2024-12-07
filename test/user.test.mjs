@@ -144,19 +144,6 @@ test("POST /user/{user_id} with invalid song_canvas", async (t) => {
 });
 
 
-// Έλεγχος για το endpoint DELETEuserfollowing
-
-/*test.before(async (t) => {
-  t.context.server = createServer(app);
-  t.context.prefixUrl = await listen(t.context.server);
-  t.context.got = got.extend({ http2: true, throwHttpErrors: false, responseType: "json", prefixUrl: t.context.prefixUrl });
-});
-
-test.after.always((t) => {
-  t.context.server.close();
-});
-*/
-
 // Test 1: Valid input (Happy Path)
 test("DELETE /user/{user_id}/following/{following_id} with valid inputs", async (t) => { 
   const response = { 
