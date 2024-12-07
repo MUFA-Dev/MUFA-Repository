@@ -4,7 +4,7 @@ exports.userUser_idPostPOST = function(body,song_lyrics,song_album_cover,song_ca
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [];
-    // event_check function checks if body is given in correct format
+   
     if (!Number.isInteger(user_id) || user_id < 1 || user_id > 120) {
       return reject({
         statusCode: 400,
