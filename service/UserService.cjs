@@ -237,28 +237,43 @@ exports.userUser_idPostPost_idDELETE = function (user_id, post_id) {
       },
     ];
     exports.posts = posts;
-    // Validate inputs
-    if (!user_id || !post_id) {
+
+    // Check if user_id exists in posts
+    const userExists = posts.some((post) => post.userId === user_id);
+    if (!userExists) {
       return reject({
         statusCode: 400,
-        message: "Invalid user_id or post_id",
+        message: 'Invalid user_id.',
       });
     }
 
-    // Find the post
-    const postIndex = posts.findIndex((p) => p.userId === user_id && p.postId === post_id);
-    if (postIndex !== -1) {
-      const post = posts.splice(postIndex, 1)[0];
-      resolve({
-        statusCode: 200,
-        message: "Post has been deleted. Remaining posts:",
-        posts,
-      });
-    } else {
-      reject({
-        statusCode: 404,
-        message: "Post not found",
+    // Check if post_id exists in posts
+    const postExists = posts.some((post) => post.postId === post_id);
+    if (!postExists) {
+      return reject({
+        statusCode: 400,
+        message: 'Invalid post_id.',
       });
     }
+
+    // Check if user_id and post_id belong to the same post
+    const postIndex = posts.findIndex(
+      (post) => post.userId === user_id && post.postId === post_id
+    );
+    if (postIndex === -1) {
+      return reject({
+        statusCode: 400,
+        message: 'User does not own the post.',
+      });
+    }
+
+    // Remove the post if all validations pass
+    const deletedPost = posts.splice(postIndex, 1)[0];
+    resolve({
+      statusCode: 200,
+      message: "Post has been deleted successfully.",
+      deletedPost,
+      remainingPosts: posts,
+    });
   });
 };

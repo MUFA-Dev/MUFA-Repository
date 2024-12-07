@@ -155,22 +155,22 @@ test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify 
         const parsedBody = JSON.parse(response.body);
         console.log(parsedBody);
         t.is(parsedBody.statusCode, 200);
-        t.is(parsedBody.message, "Post has been deleted. Remaining posts:");
+        t.is(parsedBody.message, "Post has been deleted successfully.");
     });
 
-    test("DEL user/{id}/post/{id} - Delete a post unsuccessfully with incorrect user_Id", async (t) => {
+    test("DEL user/{id}/post/{id} - Delete a post unsuccessfully with incorrect user_Id, correct post_id", async (t) => {
         const response = {
             writeHead: (statusCode, headers) => {},
             end: (body) => { response.body = body; },
         };
-        await userUser_idPostPost_idDELETE(null,response,null,null,3);
+        await userUser_idPostPost_idDELETE(null,response,null,999999,3);
         const parsedBody = JSON.parse(response.body);
         console.log(parsedBody);
         t.is(parsedBody.statusCode, 400);
-        t.is(parsedBody.message, "Invalid user_id or post_id");
+        t.is(parsedBody.message, "Invalid user_id.");
     });
     
-    test("DEL user/{id}/post/{id} - Delete a post unsuccessfully with correct user_Id", async (t) => {
+    test("DEL user/{id}/post/{id} - Delete a post unsuccessfully with correct user_Id, incorrect post_id", async (t) => {
         const response = {
             writeHead: (statusCode, headers) => {},
             end: (body) => { response.body = body; },
@@ -178,6 +178,18 @@ test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify 
         await userUser_idPostPost_idDELETE(null,response,null,2,999);
         const parsedBody = JSON.parse(response.body);
         console.log(parsedBody);
-        t.is(parsedBody.statusCode, 404);
-        t.is(parsedBody.message, "Post not found"); 
+        t.is(parsedBody.statusCode, 400);
+        t.is(parsedBody.message, "Invalid post_id."); 
+    });
+
+    test("DEL user/{id}/post/{id} - Delete a post unsuccessfully because user_id and post_id did not exist in the same post", async (t) => {
+        const response = {
+            writeHead: (statusCode, headers) => {},
+            end: (body) => { response.body = body; },
+        };
+        await userUser_idPostPost_idDELETE(null,response,null,1,4);
+        const parsedBody = JSON.parse(response.body);
+        console.log(parsedBody);
+        t.is(parsedBody.statusCode, 400);
+        t.is(parsedBody.message, "User does not own the post."); 
     });
