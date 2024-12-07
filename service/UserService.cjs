@@ -102,6 +102,7 @@ exports.userUser_idFollowingFollowing_idPostPost_idPUT = function (user_id, foll
     );
 
     if (post) {
+      console.log("here");
       // Handle likes: only increment if like is true
       if (like !== null && like !== undefined) {
         post.interactions.likes += like ? 1 : 0;

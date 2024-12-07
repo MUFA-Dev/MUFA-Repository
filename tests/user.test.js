@@ -70,6 +70,47 @@ test("PUT /user/{id}/following/{id}/post/{id} - Like a post with valid inputs", 
     t.is(parsedBody.post.interactions.likes, 6); // Should increment by 1
 });
 
+test("PUT /user/{id}/following/{id}/post/{id} - Like a post with like set to null", async (t) => {
+    const response = {
+      writeHead: (statusCode, headers) => {},
+      end: (body) => { response.body = body; },
+    };
+  
+    await userUser_idFollowingFollowing_idPostPost_idPUT(null, response, null, 1, 100, 3, null, null, null); // `like` is null
+    const parsedBody = JSON.parse(response.body);
+    t.is(parsedBody.statusCode, 200);
+    t.is(parsedBody.message, "Interaction successful");
+    t.is(parsedBody.post.interactions.likes, 5); // Likes count remains unchanged
+  });
+
+  test("PUT /user/{id}/following/{id}/post/{id} - Like a post with like set to false", async (t) => {
+    const response = {
+      writeHead: (statusCode, headers) => {},
+      end: (body) => { response.body = body; },
+    };
+  
+    await userUser_idFollowingFollowing_idPostPost_idPUT(null, response, null, 1, 100, 3, false, null, null); // `like` is null
+    const parsedBody = JSON.parse(response.body);
+    t.is(parsedBody.statusCode, 200);
+    t.is(parsedBody.message, "Interaction successful");
+    t.is(parsedBody.post.interactions.likes, 5); // Likes count remains unchanged
+  });
+
+  test("PUT /user/{id}/following/{id}/post/{id} - Like a post with like set to undefined", async (t) => {
+    const response = {
+      writeHead: (statusCode, headers) => {},
+      end: (body) => { response.body = body; },
+    };
+  
+    await userUser_idFollowingFollowing_idPostPost_idPUT(null, response, null, 1, 100, 3, undefined, null, null); // `like` is undefined
+    const parsedBody = JSON.parse(response.body);
+    t.is(parsedBody.statusCode, 200);
+    t.is(parsedBody.message, "Interaction successful");
+    t.is(parsedBody.post.interactions.likes, 5); // Likes count remains unchanged
+  });
+  
+  
+
 test("PUT /user/{id}/following/{id}/post/{id} - Comment on a post with valid inputs", async (t) => {
     const response = {
         writeHead: (statusCode, headers) => {},
