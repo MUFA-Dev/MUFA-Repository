@@ -134,7 +134,7 @@ exports.userUser_idFollowingFollowing_idPostPost_idPUT = function (user_id, foll
 };
 
 
-exports.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT = function(user_id,following_id,post_id,song_id) {
+exports.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT = function (user_id, following_id, post_id, song_id) {
   return new Promise(function (resolve, reject) {
     // Sample data: list of posts
     const posts = [
@@ -159,7 +159,6 @@ exports.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT = function(use
           reports: 1,
         },
         songId: 2,
-
       },
     ];
 
@@ -177,38 +176,39 @@ exports.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT = function(use
       });
     }
 
-    // Find the post that matches the user_id, following_id, and post_id
+    // Check if the post exists
     const post = posts.find(
       (p) =>
         p.userId === user_id &&
         p.followingId === following_id &&
-        p.postId === post_id&&
-        p.songId === song_id
+        p.postId === post_id
     );
 
-    if (post) {
-      // Check if userwants to add song to spotify
-      if (song_id === post.songId) {
-        resolve({
-          statusCode: 200,
-          message: "Song has been addeed to spotify",
-          post,
-        });
-      }else{
-        reject({
-          statusCode: 404,
-          message: "Song not found",
-        });
-      }
-    } else {
-      // If no matching post
-      reject({
+    if (!post) {
+      // If no matching post is found
+      return reject({
         statusCode: 404,
         message: "Post not found",
       });
     }
+
+    // Check if the song_id matches the songId in the post
+    if (post.songId !== song_id) {
+      return reject({
+        statusCode: 404,
+        message: "Song not found",
+      });
+    }
+
+    // If everything matches, resolve with success
+    resolve({
+      statusCode: 200,
+      message: "Song has been added to Spotify",
+      post,
+    });
   });
 };
+
 
 exports.userUser_idPostPost_idDELETE = function (user_id, post_id) {
   return new Promise((resolve, reject) => {

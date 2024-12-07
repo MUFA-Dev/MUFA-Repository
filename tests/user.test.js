@@ -44,6 +44,18 @@ test("GET/user/{id}/song with invalid song search", async (t) => {
     t.is(parsedBody.statusCode, 404);
 });
 
+test("GET/user/{id}/song with invalid user_Id", async (t) => {
+    const response = {
+        writeHead: (statusCode, headers) => {},
+        end: (body) => {response.body = body;}};
+    await userUser_idSongGET(null,response,null,99999999,"Nyxterides", null,null,null,null);
+    const parsedBody = JSON.parse(response.body);
+    console.log(parsedBody);
+    t.is(parsedBody.statusCode, 400);
+    t.is(parsedBody.message, "Invalid user_id");
+});
+
+
 
 test("PUT /user/{id}/following/{id}/post/{id} - Like a post with valid inputs", async (t) => {
     const response = {
@@ -130,7 +142,7 @@ test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify 
         const parsedBody = JSON.parse(response.body);
         console.log(parsedBody);
         t.is(parsedBody.statusCode, 200);
-        t.is(parsedBody.message, "Song has been addeed to spotify");
+        t.is(parsedBody.message, "Song has been added to Spotify");
     });
 
     test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify unsuccessfully", async (t) => {
@@ -142,9 +154,56 @@ test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify 
         const parsedBody = JSON.parse(response.body);
         console.log(parsedBody);
         t.is(parsedBody.statusCode, 404);
-        t.is(parsedBody.message, "Post not found");
+        t.is(parsedBody.message, "Song not found");
     });
 
+    test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify unsuccessfully due to invalid user_id", async (t) => {
+        const response = {
+            writeHead: (statusCode, headers) => {},
+            end: (body) => { response.body = body; },
+        };
+        await userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(null,response,null,99999999999, 100, 3,3);
+        const parsedBody = JSON.parse(response.body);
+        console.log(parsedBody);
+        t.is(parsedBody.statusCode, 400);
+        t.is(parsedBody.message, "Invalid user_id");
+    });
+
+    test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify unsuccessfully due to invalid following_id", async (t) => {
+        const response = {
+            writeHead: (statusCode, headers) => {},
+            end: (body) => { response.body = body; },
+        };
+        await userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(null,response,null,1, 9999999, 3,3);
+        const parsedBody = JSON.parse(response.body);
+        console.log(parsedBody);
+        t.is(parsedBody.statusCode, 400);
+        t.is(parsedBody.message, "Invalid following_id");
+    });
+
+    test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify unsuccessfully due to missmatch in song_id", async (t) => {
+        const response = {
+            writeHead: (statusCode, headers) => {},
+            end: (body) => { response.body = body; },
+        };
+        await userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(null,response,null,1,100, 3,9999999);
+        const parsedBody = JSON.parse(response.body);
+        console.log(parsedBody);
+        t.is(parsedBody.statusCode, 404);
+        t.is(parsedBody.message, "Song not found");
+    });
+
+    test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify unsuccessfully due to missmatch in post_id", async (t) => {
+        const response = {
+            writeHead: (statusCode, headers) => {},
+            end: (body) => { response.body = body; },
+        };
+        await userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(null,response,null,1,100, 9999999,1);
+        const parsedBody = JSON.parse(response.body);
+        console.log(parsedBody);
+        t.is(parsedBody.statusCode, 404);
+        t.is(parsedBody.message, "Post not found");
+    });
 
     test("DEL user/{id}/post/{id} - Delete a post successfully with correct user_Id", async (t) => {
         const response = {
