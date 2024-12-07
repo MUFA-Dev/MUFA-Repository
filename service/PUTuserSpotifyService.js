@@ -10,13 +10,6 @@ exports.userUser_idSpotifyPUT = function (body, user_id) {
       });
     }
 
-    // Έλεγχος αν το body παρέχεται
-    if (!body) {
-      return reject({
-        statusCode: 400,
-        message: "Invalid body format. Body is required.",
-      });
-    }
 
     // Έλεγχος αν το body περιέχει το απαιτούμενο πεδίο 'sync'
     if (typeof (body.sync) !== "boolean") {

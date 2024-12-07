@@ -266,6 +266,7 @@ test("PUT /user/{user_id}/spotify with  with missing sync field in body", async 
   console.log(parsedBody);
   t.is(parsedBody.statusCode, 400);
   t.is(parsedBody.message, "Invalid body format. 'sync' must be a boolean.");
+
   
 });
 
