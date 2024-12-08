@@ -1,5 +1,5 @@
 import test from "ava";
-import http from "node:http";
+import { createServer } from "http";
 import got from "got";
 import app from "../index.js";
 import listen from "test-listen";
@@ -15,14 +15,13 @@ import {userUser_idPostPUT} from "../controllers/userUser_idPostPUT.js";
 // })
 
 test.before(async (t) => {
-	t.context.server = http.createServer(app);
-    const server = t.context.server.listen();
-    const { port } = server.address();
-	t.context.got = got.extend({ responseType: "json", prefixUrl: `http://localhost:${port}` });
+    t.context.server = createServer(app);
+    t.context.prefixUrl = await listen(t.context.server);
+    t.context.got = got.extend({ http2: true, throwHttpErrors: false, responseType: "json", prefixUrl: t.context.prefixUrl });
 });
 
 test.after.always((t) => {
-	t.context.server.close();
+    t.context.server.close();
 });
 
 test("PUT/user/{user_id}/postsong returns correct response and status code for user 1", async (t) => {

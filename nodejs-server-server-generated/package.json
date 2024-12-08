@@ -7,7 +7,9 @@
     "prestart": "npm install",
     "start": "node index.js",
     "test": "c8 ava",
-    "build": "Build project"
+    "build": "Build project",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "keywords": [
     "swagger"
@@ -17,6 +19,7 @@
   "devDependencies": {
     "ava": "^5.3.1",
     "c8": "^8.0.1",
+    "cypress": "^13.16.1",
     "got": "^11.8.3",
     "test-listen": "^1.1.0"
   },
