@@ -9,7 +9,7 @@ it("Ensure that homepage loads", () => {
 })
 
 
-it("Click on first endpoint and verify responses", () => {
+it("Click on GET/user/{userd_id}/song", () => {
   // Check that clicking the endpoint works
   cy.get('#operations-default-userUser_idSongGET').click();
 
