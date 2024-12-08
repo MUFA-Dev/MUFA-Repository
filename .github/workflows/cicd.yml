@@ -23,6 +23,7 @@ jobs:
         with:
          start: npm start
          wait-on: 'http://localhost:8080/docs' 
+         working-directory: nodejs-server-server-generated
  
   cd:
     runs-on: ubuntu-latest
