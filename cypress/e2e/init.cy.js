@@ -3,13 +3,26 @@ describe('login', () => {
 		cy.visit('https://mufa-repository-1.onrender.com/docs/#/')
 	})
 
-it("Ensure that homepage loads", () => {
-    cy.get(".swagger-ui").should("exist")
+  it("Ensure that homepage loads and that the search bar works properly ", () => {
+    cy.get(".swagger-ui").should("exist");
+    // Remove the 'disabled' attribute from the input element
+    cy.get("input.download-url-input").then((input) => {
+        input.removeAttr("disabled");
+    });
 
-})
+    // Click on the wrapper
+    cy.get(".download-url-wrapper").click();
 
+    // Type into the input field
+    cy.get("input.download-url-input").type("this is a test");
 
-it("Click on GET/user/{userd_id}/song", () => {
+    // Click the explore button
+    cy.get(".download-url-button").click();
+    //confirm that the info respawnse exist (which is an error in this case)
+    cy.get(".info").should("exist");
+  });
+
+it("Test GET/user/{userd_id}/song endpoint", () => {
   // Check that clicking the endpoint works
   cy.get('#operations-default-userUser_idSongGET').click();
 
@@ -45,5 +58,15 @@ it("Click on GET/user/{userd_id}/song", () => {
   cy.get('.content-type-wrapper ').click();
   cy.get('.content-type').should('be.visible');
 })
+
+it("Ensure that schemas exist and work proeprely", () => {
+  //ensure tha schemas are clickable
+  cy.get("section.models").should("be.visible").click();
+  //after expanding, try to click on one and expect the right response
+  //Ensure that model box expands
+  cy.get(".model-box").eq(0).should("be.visible").click();
+  //Ensure that model box expands
+  cy.get(".model").eq(0).should("be.visible");
+});
 
 })
