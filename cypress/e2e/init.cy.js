@@ -1,4 +1,4 @@
-describe('Custom Post Endpoint Tests', () => {
+describe('Custom PUT Endpoint Tests', () => {
     beforeEach(() => {
       cy.visit('https://mufa-repository-6ak2.onrender.com/docs/#/');
     });
@@ -43,7 +43,7 @@ describe('Custom Post Endpoint Tests', () => {
     });
 
 
-describe('Custom Post Endpoint Tests', () => {
+describe('Custom POST Endpoint Tests', () => {
    beforeEach(() => {
     cy.visit('https://mufa-repository-6ak2.onrender.com/docs/#/');
       });
@@ -53,7 +53,7 @@ describe('Custom Post Endpoint Tests', () => {
     });
 
     it("Test Post /user/{user_id}/post", () => {
-      // Expand the PUT /user/{user_id}/post endpoint
+      // Expand the Post /user/{user_id}/post endpoint
       cy.get('#operations-default-userUser_idPostPOST').click();
   
       // Click on 'Try it out' button
