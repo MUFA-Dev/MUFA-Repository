@@ -50,17 +50,17 @@ exports.userUser_idPostPUT = function(body, song_lyrics, song_album_cover, song_
                 // If song_lyrics is provided, update
                 if (song_lyrics) {
                     t.song_lyrics = song_lyrics;
-                    t.message = t.message ? t.message + " | You successfully added song lyrics" : "You successfully added song lyrics";
+                    t.message =  " You successfully added song lyrics";
                 }
                 // If song_album_cover is provided, update
                 if (song_album_cover) {
                     t.song_album_cover = song_album_cover;
-                    t.message = t.message ? t.message + " | You successfully added song album cover" : "You successfully added song album cover";
+                    t.message =  " You successfully added song album cover ";
                 }
                 // If song_canvas is provided, update
                 if (song_canvas) {
                     t.song_canvas = song_canvas;
-                    t.message = t.message ? t.message + " | You successfully added song canvas" : "You successfully added song canvas";
+                    t.message =  "You successfully added song canvas";
                 }
                 result = t.message; // Set result to the final message
             }
