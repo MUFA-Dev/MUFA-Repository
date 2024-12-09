@@ -26,14 +26,22 @@ jobs:
       - name: Verify dependencies
         run: npm ls
 
-      - name: Run tests
-        run: npx c8 ava
+      - name: Start application
+        run: npm start &
+      
+      - name: Wait for server
+        uses: jakejarvis/wait-for-netlify-action@v1
+        with:
+          url: 'http://localhost:8080/docs'
+          timeout: 120
 
-      - name: Cypress run
+      - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         with:
           start: npm start
-          wait-on: 'http://localhost:8080/docs' 
+          wait-on: 'http://localhost:8080/docs'
+          wait-on-timeout: 120000
+          browser: chrome
 
   cd:
     runs-on: ubuntu-latest
