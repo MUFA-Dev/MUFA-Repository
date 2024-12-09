@@ -1,6 +1,6 @@
 describe('login', () => {
 	beforeEach(() => {
-		cy.visit('https://mufa-repository-1.onrender.com/docs/#/')
+		cy.visit('http://localhost:8080/docs')
 	})
 
   it("Ensure that homepage loads and that the search bar works properly ", () => {
