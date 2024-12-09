@@ -33,7 +33,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm start
-          wait-on: 'https://mufa-repository-1.onrender.com/docs/#/' 
+          wait-on: 'http://localhost:8080/docs' 
 
   cd:
     runs-on: ubuntu-latest
