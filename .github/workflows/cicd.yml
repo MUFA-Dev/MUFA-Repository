@@ -6,19 +6,38 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
       - name: Setup nodejs
         uses: actions/setup-node@v2
         with:
           node-version: 16
-
-      - name: Download dependencies
+      - name: Install dependencies
         run: npm install
         working-directory: nodejs-server-server-generated
-
-      - name: Run tests
-        run: npm run test
+      -  name: Clean and install dependencies
+         run: |
+           npm ci
+           npm install foreground-child
+         working-directory: nodejs-server-server-generated
+      -  name: Verify dependencies
+         run: npm ls
+         working-directory: nodejs-server-server-generated
+      - name: Run test
+        run: npm test
         working-directory: nodejs-server-server-generated
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+         start: npm start
+         wait-on: 'http://localhost:8080/docs' 
+         working-directory: nodejs-server-server-generated
+ 
+  cd:
+    runs-on: ubuntu-latest
+    needs: ci
+    steps:
+      - name: Deploy to Render
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_API_KEY }}
 
