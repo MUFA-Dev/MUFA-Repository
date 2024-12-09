@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { createServer } from "http";
 import test from "ava";
 import got from "got";
