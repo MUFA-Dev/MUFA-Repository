@@ -1,7 +1,7 @@
 
 describe('Custom PUT Endpoint Tests', () => {
     beforeEach(() => {
-      cy.visit('https://mufa-repository-6ak2.onrender.com/docs/#/');
+      cy.visit('https://mufa-repository-1.onrender.com/docs/#/');
     });
   
     it("Ensure that the homepage loads", () => {
@@ -46,7 +46,7 @@ describe('Custom PUT Endpoint Tests', () => {
 
 describe('Custom POST Endpoint Tests', () => {
    beforeEach(() => {
-    cy.visit('https://mufa-repository-6ak2.onrender.com/docs/#/');
+    cy.visit('https://mufa-repository-1.onrender.com/docs/#/');
       });
     
     it("Ensure that the homepage loads", () => {
@@ -193,3 +193,4 @@ it("Ensure that schemas exist and work proeprely", () => {
 
 })
 
+})
