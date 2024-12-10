@@ -63,11 +63,10 @@ test("DELETE /user/{user_id}/following/{following_id} with following_id that doe
 test("GET /user/{user_id}/song with valid inputs", async (t) => {
   const user_id = 7;
   const { body, statusCode } = await t.context.got.get(`user/${user_id}/song`);
-  t.is(statusCode, 200); // Expect 200 for successful response
+  t.is(statusCode, 200); 
   console.log(body);
-  t.true(Array.isArray(body.message)); // Access the `message` field in response
-  t.true(body.message.length > 0); // At least one song should be returned
-  
+  t.true(Array.isArray(body.message)); 
+  t.true(body.message.length > 0); 
 });
 
 // Test 2: Invalid user_id (out of range)

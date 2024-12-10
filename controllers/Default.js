@@ -20,16 +20,7 @@ module.exports.userUser_idSongGET = function userUser_idSongGET(req, res, next, 
       utils.writeJson(res, response, response.code);
     })
     .catch(function (err) {
-      utils.writeJson(res, err, err.code || 500);
+      utils.writeJson(res, err, err.code );
     });
 };
 
-module.exports.userUser_idNotificationsCommentsGET = function userUser_idNotificationsCommentsGET (req, res, next, user_id) {
-  DefaultService.userUser_idNotificationsCommentsGET(user_id)
-    .then(function (response) {
-      utils.writeJson(res, response,response.code);
-    })
-    .catch(function (err) {
-      utils.writeJson(res, response,err.code||500);
-    });
-};
