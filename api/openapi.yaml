@@ -556,4 +556,3 @@ components:
           type: string
         song_canvas:
           type: string
-
