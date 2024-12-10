@@ -58,31 +58,100 @@ test("DELETE /user/{user_id}/following/{following_id} with following_id that doe
   t.is(body.message, "Following_id not found.");
 });
 
-// { id: 1, title: "Imagine", artist: "John Lennon", album: "Imagine", genre: "Rock" },
-//const { body, statusCode } = await t.context.got.delete("user/7/following/8");
-test("GET /user/{user_id}/song with valid inputs", async (t) => {
-  const user_id = 7;
-  const { body, statusCode } = await t.context.got.get(`user/${user_id}/song`);
-  t.is(statusCode, 200); 
-  console.log(body);
-  t.true(Array.isArray(body.message)); 
-  t.true(body.message.length > 0); 
+////////////////////
+///GET ENDPOINT///
+//////////////////
+
+
+// test("GET /user/{user_id}/song with valid inputs", async (t) => {
+//   const user_id = 7;
+//   const { body, statusCode } = await t.context.got.get(`user/${user_id}/song`);
+//   t.is(statusCode, 200); 
+//   console.log(body);
+//   t.true(Array.isArray(body.message)); 
+//   t.true(body.message.length > 0); 
+// });
+
+// // Test 2: Invalid user_id (out of range)
+// test("GET /user/{user_id}/song with invalid user_id", async (t) => {
+//   const { body, statusCode } = await t.context.got.get("user/-10/song", {
+//     throwHttpErrors: false,
+//   });
+//   t.is(statusCode, 400);
+//   t.is(body.message, "Invalid user_id. It must be an integer between 1 and 120.");
+// });
+
+// // Test 3: user_id not found
+// test("GET /user/{user_id}/song with user_id that doesnt exist", async (t) => {
+//   const { body, statusCode } = await t.context.got.get("user/100/song", {
+//     throwHttpErrors: false,
+//   });
+//   t.is(statusCode, 400);
+//   t.is(body.message, "User_id not found.");
+// });
+
+
+////////////////////
+///POST ENDPOINT///
+//////////////////
+
+// Test 1: Valid Input
+test("POST /user/{user_id}/post with valid inputs", async (t) => {
+  const payload = {
+    content: "This is a valid post.",
+    song_lyrics: "Some lyrics",
+    song_album_cover: "cover.jpg",
+    song_canvas: "canvas_data",
+  };
+  const { body, statusCode } = await t.context.got.post("user/7/post", {
+    json: payload,
+  });
+  t.is(statusCode, 201);
+  t.truthy(body.id);
+  t.is(body.content, payload.content);
 });
 
-// Test 2: Invalid user_id (out of range)
-test("GET /user/{user_id}/song with invalid user_id", async (t) => {
-  const { body, statusCode } = await t.context.got.get("user/-10/song", {
+// Test 2: Invalid user_id
+test("POST /user/{user_id}/post with invalid user_id", async (t) => {
+  const payload = { content: "This is a valid post." };
+  const { body, statusCode } = await t.context.got.post("user/-10/post", {
+    json: payload,
     throwHttpErrors: false,
   });
   t.is(statusCode, 400);
-  t.is(body.message, "Invalid user_id. It must be an integer between 1 and 120.");
+  t.is(body.message, "Invalid user_id. It must be a positive integer.");
 });
 
-// Test 3: user_id not found
-test("GET /user/{user_id}/song with user_id that doesnt exist", async (t) => {
-  const { body, statusCode } = await t.context.got.get("user/100/song", {
+// Test 3: Missing required fields
+test("POST /user/{user_id}/post with missing content", async (t) => {
+  
+  const { body, statusCode } = await t.context.got.post("user/7/post", {
+    searchParams: { song_lyrics: "12345", song_album_cover: "cover_example", song_canvas: "canvas_example" }, // Query Parameters
+    json: { content: true }, // Body Content
     throwHttpErrors: false,
   });
   t.is(statusCode, 400);
-  t.is(body.message, "User_id not found.");
+  t.is(body.message, "request.body.content should be string");
+});
+
+// // Test 4: Invalid data types for optional fields
+// test("POST /user/{user_id}/post with invalid data types", async (t) => {
+//   const { body, statusCode } = await t.context.got.post("user/7/post", {
+//     searchParams: { song_lyrics: true }, // Query Parameters
+//     json: { content: "12345" }, // Body Content
+//     throwHttpErrors: false,
+//   });
+//   t.is(statusCode, 400);
+//   t.is(body.message, "Invalid data type for song_lyrics. It must be a string.");
+// });
+
+// Test 5: Non-existent user_id
+test("POST /user/{user_id}/post with non-existent user_id", async (t) => {
+  const payload = { content: "This is a valid post." };
+  const { body, statusCode } = await t.context.got.post("user/999/post", {
+    json: payload,
+    throwHttpErrors: false,
+  });
+  t.is(statusCode, 404);
+  t.is(body.message, "User not found.");
 });

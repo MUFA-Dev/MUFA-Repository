@@ -1,11 +1,20 @@
 'use strict';
 
+const validUserIds = [1, 7, 10, 30, 32, 40]; // Υποθετικοί έγκυροι `user_id`
+const posts = []; // Προσωρινός αποθηκευτικός χώρος για posts
 const user_ids = [1, 7, 10, 30, 32, 40];
 const following_ids = [3, 8, 15, 13, 39, 101, 117];
-const songs = [
-  { id: 1, title: "Imagine", artist: "John Lennon", album: "Imagine", genre: "Rock" },
-  { id: 2, title: "Hey Jude", artist: "The Beatles", album: "Hey Jude", genre: "Pop" },
-];
+const userSongs = {
+  7: [
+    { id: 1, title: "Song A", artist: "Artist 1", album: "Album X", genre: "Pop" },
+    { id: 2, title: "Song B", artist: "Artist 2", album: "Album Y", genre: "Rock" },
+    { id: 3, title: "Song C", artist: "Artist 1", album: "Album Z", genre: "Jazz" },
+  ],
+  10: [
+    { id: 4, title: "Song D", artist: "Artist 3", album: "Album W", genre: "Classical" },
+  ],
+};
+
 
 exports.userUser_idFollowingFollowing_idDELETE = function (user_id, following_id) {
   return new Promise(function (resolve, reject) {
@@ -53,20 +62,68 @@ exports.userUser_idFollowingFollowing_idDELETE = function (user_id, following_id
 };
 
 
-exports.userUser_idSongGET = function (user_id, song_name, song_artist, song_genre, song_album) {
-  return new Promise(function (resolve, reject) {
-    //ελεγχος αν το user_id εχει valid τιμη
-     if (!Number.isInteger(user_id) || user_id < 1 || user_id > 120) {
-      return reject({ code: 400, message: "Invalid user_id. It must be an integer between 1 and 120." });
-    }
-    //ελεγχος αν το user_id ανηκει στα user_ids
-     if (!user_ids.includes(user_id)) {
-      return reject({ code: 400, message: "User_id not found." });
-   }
+// exports.userUser_idSongGET = function (user_id, song_name, song_artist, song_genre, song_album) {
+//   return new Promise(function (resolve, reject) {
+//     //ελεγχος αν το user_id εχει valid τιμη
+//      if (!Number.isInteger(user_id) || user_id < 1 || user_id > 120) {
+//       return reject({ code: 400, message: "Invalid user_id. It must be an integer between 1 and 120." });
+//     }
+//     //ελεγχος αν το user_id ανηκει στα user_ids
+//      if (!user_ids.includes(user_id)) {
+//       return reject({ code: 400, message: "User_id not found." });
+//    }
 
-    // Αν όλα είναι σωστά, επιστρέφουμε το αποτέλεσμα με κωδικό 200
-    resolve({ code: 200, message: filteredSongs });
+//     // Αν όλα είναι σωστά, επιστρέφουμε το αποτέλεσμα με κωδικό 200
+//     resolve({ code: 200, message: filteredSongs });
+//   });
+// };
+
+exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, song_canvas, user_id) {
+  return new Promise(function (resolve, reject) {
+    // Έλεγχος αν το user_id είναι έγκυρο
+    if (!Number.isInteger(user_id) || user_id <= 0) {
+      return reject({
+        code: 400,
+        message: "Invalid user_id. It must be a positive integer.",
+      });
+    }
+
+    // Έλεγχος αν το user_id υπάρχει
+    if (!validUserIds.includes(user_id)) {
+      return reject({
+        code: 404,
+        message: "User not found.",
+      });
+    }
+
+    // Έλεγχος για προαιρετικά πεδία και τύπους δεδομένων
+    if (song_lyrics && typeof (song_lyrics) !== "string") {
+      return reject({
+        code: 400,
+        message: "Invalid data type for song_lyrics. It must be a string.",
+      });
+    }
+
+    if (song_canvas && typeof song_canvas !== "string") {
+      return reject({
+        code: 400,
+        message: "Invalid data type for song_canvas. It must be a string.",
+      });
+    }
+
+     // Δημιουργία του νέου post
+   const newPost = {
+      id: posts.length + 1, // Auto-increment ID
+      user_id,
+      content: body.content,
+      song_lyrics,
+      song_album_cover,
+      song_canvas,
+    };
+
+    
+    posts.push(newPost); // Αποθήκευση στη μνήμη
+    resolve(newPost); // Επιστροφή της απάντησης
   });
 };
-
 
