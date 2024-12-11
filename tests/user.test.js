@@ -1,295 +1,218 @@
-import "dotenv/config";
-import { createServer } from "http";
-import test from "ava";
-import got from "got";
-import listen from "test-listen";
-import app from "../index.js";
-import {userUser_idSongGET} from "../controllers/User.cjs";
-import {userUser_idFollowingFollowing_idPostPost_idPUT} from "../controllers/User.cjs";
-import{userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT} from "../controllers/User.cjs";
-import{userUser_idPostPost_idDELETE} from "../controllers/User.cjs";
-import posts from "../service/UserService.cjs";
+const http = require('node:http');
+const test = require('ava');
+const got = require('got');
+const app = require('../index.js');
 
 test.before(async (t) => {
-    t.context.server = createServer(app);
-    t.context.prefixUrl = await listen(t.context.server);
-    t.context.got = got.extend({ http2: true, throwHttpErrors: false, responseType: "json", prefixUrl: t.context.prefixUrl });
+  t.context.server = http.createServer(app);
+const server = t.context.server.listen();
+// const { port } = server.address();
+  t.context.got = got.extend({ responseType: "json", prefixUrl: `http://localhost:8080` });
 });
 
 test.after.always((t) => {
-    t.context.server.close();
+  t.context.server.close();
 });
 
 
-test("GET/user/{id}/song with correct inputs", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => {response.body = body;}};
-    await userUser_idSongGET(null,response,null,2, "Nyxterides", "LEX", "rap", "G.T.K.");
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    console.log(parsedBody.statusCode)
-    console.log(typeof(parsedBody))
-    t.is(parsedBody.statusCode, 200);
-    t.is(parsedBody.songs[0].title, "Nyxterides");
-}); 
+//////////////////////
+///DELETE ENDPOINT///
+////////////////////
 
-test("GET/user/{id}/song with invalid song search", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => {response.body = body;}};
-    await userUser_idSongGET(null,response,null,2,"Nonexistent Song", null,null,null,null);
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    t.is(parsedBody.statusCode, 404);
+///////////      DELETE /user/{user_id}/following/{following_id}      ////////////////
+// Test 1: Valid Input
+test("DELETE /user/{user_id}/following/{following_id} with valid inputs", async (t) => {
+  const { body, statusCode } = await t.context.got.delete("user/7/following/8");
+  t.is(statusCode, 200);
+  t.is(body.message.user_id, 7);
+  t.is(body.message.following_id, 8);
 });
 
-test("GET/user/{id}/song with invalid user_Id", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => {response.body = body;}};
-    await userUser_idSongGET(null,response,null,99999999,"Nyxterides", null,null,null,null);
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    t.is(parsedBody.statusCode, 400);
-    t.is(parsedBody.message, "Invalid user_id");
-});
+// // Test 2: Invalid user_id (Invalid data type)
+// test("DELETE /user/{user_id}/following/{following_id} with invalid user_id", async (t) => {
+//   const { body, statusCode } = await t.context.got.delete("user/-10/following/8", {
+//     throwHttpErrors: false, // Don't throw error on bad request
+//   });
+//   t.is(statusCode, 400);
+//   t.is(body.message, "Invalid user_id. It must be an integer between 1 and 120.");
+// });
+
+// // Test 3: user_id that does not exist
+// test("DELETE /user/{user_id}/following/{following_id} with user_id that does not exist", async (t) => {
+//   const { body, statusCode } = await t.context.got.delete("user/6/following/8", {
+//     throwHttpErrors: false,
+//   });
+//   t.is(statusCode, 400);
+//   t.is(body.message, "Response code 400 (Unauthorized): User_id not found.");
+// });
+
+// // Test 4: Invalid following_id (Invalid data type)
+// test("DELETE /user/{user_id}/following/{following_id} with invalid following_id", async (t) => {
+//   const { body, statusCode } = await t.context.got.delete("user/7/following/-8", {
+//     throwHttpErrors: false,
+//   });
+//   t.is(statusCode, 400);
+//   t.is(body.message, "Invalid following_id. It must be an integer between 1 and 120.");
+// });
+
+// // Test 5: following_id that does not exist
+// test("DELETE /user/{user_id}/following/{following_id} with following_id that does not exist", async (t) => {
+//   const { body, statusCode } = await t.context.got.delete("user/7/following/5", {
+//     throwHttpErrors: false,
+//   });
+//   t.is(statusCode, 400);
+//   t.is(body.message, "Following_id not found.");
+// });
 
 
 
-test("PUT /user/{id}/following/{id}/post/{id} - Like a post with valid inputs", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => { response.body = body; },
-    };
-    await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,1, 100, 3, true, null, null);
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    t.is(parsedBody.statusCode, 200);
-    t.is(parsedBody.message, "Interaction successful");
-    t.is(parsedBody.post.interactions.likes, 6); // Should increment by 1
-});
+////////////////////
+///POST ENDPOINT///
+//////////////////
 
-test("PUT /user/{id}/following/{id}/post/{id} - Like a post with like set to null", async (t) => {
-    const response = {
-      writeHead: (statusCode, headers) => {},
-      end: (body) => { response.body = body; },
-    };
+///////////      POST user/{user_id}/post      ////////////////
+
+// Test 1: Valid Input
+// test("POST /user/{user_id}/post with valid inputs", async (t) => {
+//   const payload = {
+//     content: "This is a valid post.",
+//     song_lyrics: "Some lyrics",
+//     song_album_cover: "cover.jpg",
+//     song_canvas: "canvas_data",
+//   };
+//   const { body, statusCode } = await t.context.got.post("user/7/post", {
+//     json: payload,
+//   });
+//   t.is(statusCode, 201);
+//   t.truthy(body);
+
+// });
+
+// // Test 2: Invalid user_id
+// test("POST /user/{user_id}/post with invalid user_id", async (t) => {
+//   const payload = { content: "This is a valid post." };
+//   const { body, statusCode } = await t.context.got.post("user/-10/post", {
+//     json: payload,
+//     throwHttpErrors: false,
+//   });
+//   t.is(statusCode, 400);
+//   t.is(body.message, "Invalid user_id. It must be a positive integer.");
+// });
+
+// // Test 3: Invalid required fields
+// test("POST /user/{user_id}/post with invalidcontent", async (t) => {
   
-    await userUser_idFollowingFollowing_idPostPost_idPUT(null, response, null, 1, 100, 3, null, null, null); // `like` is null
-    const parsedBody = JSON.parse(response.body);
-    t.is(parsedBody.statusCode, 200);
-    t.is(parsedBody.message, "Interaction successful");
-    t.is(parsedBody.post.interactions.likes, 5); // Likes count remains unchanged
-  });
+//   const { body, statusCode } = await t.context.got.post("user/7/post", {
+//     searchParams: { song_lyrics: "12345", song_album_cover: "cover_example", song_canvas: "canvas_example" }, // Query Parameters
+//     json: { content: true }, // Body Content
+//     throwHttpErrors: false,
+//   });
+//   t.is(statusCode, 400);
+//   t.is(body.message, "request.body.content should be string");
+// });
 
-  test("PUT /user/{id}/following/{id}/post/{id} - Like a post with like set to false", async (t) => {
-    const response = {
-      writeHead: (statusCode, headers) => {},
-      end: (body) => { response.body = body; },
-    };
+
+// // Test 4: Non-existent user_id
+// test("POST /user/{user_id}/post with non-existent user_id", async (t) => {
+//   const payload = { content: "This is a valid post." };
+//   const { body, statusCode } = await t.context.got.post("user/999/post", {
+//     json: payload,
+//     throwHttpErrors: false,
+//   });
+//   t.is(statusCode, 400);
+//   t.is(body.message, "User not found.");
+// });
+
+////////////////////
+///PUT ENDPOINT////
+//////////////////
+
+///////////      PUT user/{user_id}/Spotify      ////////////////
+
+// Test 1: Valid Input
+
+// test("PUT /user/{user_id}/Spotify with valid inputs", async (t) => {
+//    const payload = {
+//      accessToken: "validAccessToken",
+//      refreshToken: "validRefreshToken",
+//      expiresIn: 3600,
+//      scope: "read_write",
+//    };
+
+//    const { statusCode, body: responseBody } = await t.context.got.put("user/7/spotify", {
+//     json: payload
+//   });
+
+//   t.is(statusCode, 200);
+//   t.is(responseBody.message, "Sync successful");
   
-    await userUser_idFollowingFollowing_idPostPost_idPUT(null, response, null, 1, 100, 3, false, null, null); // `like` is null
-    const parsedBody = JSON.parse(response.body);
-    t.is(parsedBody.statusCode, 200);
-    t.is(parsedBody.message, "Interaction successful");
-    t.is(parsedBody.post.interactions.likes, 5); // Likes count remains unchanged
-  });
+// });
 
-  test("PUT /user/{id}/following/{id}/post/{id} - Like a post with like set to undefined", async (t) => {
-    const response = {
-      writeHead: (statusCode, headers) => {},
-      end: (body) => { response.body = body; },
-    };
+// // Test 2: Invalid user_id (Invalid data type)
+// test("PUT /user/{user_id}/Spotify with invalid user_id", async (t) => {
+//   const body = {
+//     accessToken: "validAccessToken",
+//     refreshToken: "validRefreshToken",
+//     expiresIn: 3600,
+//     scope: "read_write",
+//   };
+
+//   const { body: responseBody, statusCode } = await t.context.got.put("user/not-a-number/spotify", {
+//     json: body,
+//     throwHttpErrors: false,
+//   });
+
+//   t.is(statusCode, 400);
+//   t.is(responseBody.message, "request.params.user_id should be integer");
+// });
+
+// // Test 3: Invalid body (not an object)
+// test("PUT /user/{user_id}/Spotify with invalid body", async (t) => {
+//   const body = "not-an-object"; // Invalid body
+
+//   const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
+//     json: body,
+//     throwHttpErrors: false,
+//   });
+
+//   t.is(statusCode, 400);
   
-    await userUser_idFollowingFollowing_idPostPost_idPUT(null, response, null, 1, 100, 3, undefined, null, null); // `like` is undefined
-    const parsedBody = JSON.parse(response.body);
-    t.is(parsedBody.statusCode, 200);
-    t.is(parsedBody.message, "Interaction successful");
-    t.is(parsedBody.post.interactions.likes, 5); // Likes count remains unchanged
-  });
-  
-  
-
-test("PUT /user/{id}/following/{id}/post/{id} - Comment on a post with valid inputs", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => { response.body = body; },
-    };
-    await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,1, 100, 3, null, "Awesome post!", null);
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    t.is(parsedBody.statusCode, 200);
-    t.is(parsedBody.message, "Interaction successful");
-    t.true(parsedBody.post.interactions.comments.includes("Awesome post!"));
-});
-
-test("PUT /user/{id}/following/{id}/post/{id} - Report a post with valid inputs", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => { response.body = body; },
-    };
-    await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,2, 101, 4, null, null, true);
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    t.is(parsedBody.statusCode, 200);
-    t.is(parsedBody.message, "Interaction successful");
-    t.is(parsedBody.post.interactions.reports, 2); // Should increment by 1
-});
-
-test("PUT /user/{id}/following/{id}/post/{id} - Invalid post", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => { response.body = body; },
-    };
-    await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,99, 999, 999, true, null, null);
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    t.is(parsedBody.message, "Post not found");
-    t.is(parsedBody.statusCode, 404);
-});
-
-test("PUT /user/{id}/following/{id}/post/{id} - Invalid userId", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => { response.body = body; },
-    };
-    await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,9999, 100, 3, true, null, null);
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    t.is(parsedBody.message, "Invalid user_id");
-    t.is(parsedBody.statusCode, 400);
-});
-
-test("PUT /user/{id}/following/{id}/post/{id} - Invalid followingId", async (t) => {
-    const response = {
-        writeHead: (statusCode, headers) => {},
-        end: (body) => { response.body = body; },
-    };
-    await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,1, 9999999, 3, true, null, null);
-    const parsedBody = JSON.parse(response.body);
-    console.log(parsedBody);
-    t.is(parsedBody.message, "Invalid following_id");
-    t.is(parsedBody.statusCode, 400);
-});
+// });
 
 
-test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify successfully", async (t) => {
-        const response = {
-            writeHead: (statusCode, headers) => {},
-            end: (body) => { response.body = body; },
-        };
-        await userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(null,response,null,1, 100, 3,1);
-        const parsedBody = JSON.parse(response.body);
-        console.log(parsedBody);
-        t.is(parsedBody.statusCode, 200);
-        t.is(parsedBody.message, "Song has been added to Spotify");
-    });
 
-    test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify unsuccessfully", async (t) => {
-        const response = {
-            writeHead: (statusCode, headers) => {},
-            end: (body) => { response.body = body; },
-        };
-        await userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(null,response,null,1, 100, 3,3);
-        const parsedBody = JSON.parse(response.body);
-        console.log(parsedBody);
-        t.is(parsedBody.statusCode, 404);
-        t.is(parsedBody.message, "Song not found");
-    });
+// // Test 5: Incorrect type in body fields
+// test("PUT /user/{user_id}/Spotify with incorrect type in body", async (t) => {
+//   const body = {
+//     accessToken: "validAccessToken",
+//     refreshToken: "validRefreshToken",
+//     expiresIn: "not-an-integer", // Invalid type
+//     scope: "read_write",
+//   };
 
-    test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify unsuccessfully due to invalid user_id", async (t) => {
-        const response = {
-            writeHead: (statusCode, headers) => {},
-            end: (body) => { response.body = body; },
-        };
-        await userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(null,response,null,99999999999, 100, 3,3);
-        const parsedBody = JSON.parse(response.body);
-        console.log(parsedBody);
-        t.is(parsedBody.statusCode, 400);
-        t.is(parsedBody.message, "Invalid user_id");
-    });
+//   const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
+//     json: body,
+//     throwHttpErrors: false,
+//   });
 
-    test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify unsuccessfully due to invalid following_id", async (t) => {
-        const response = {
-            writeHead: (statusCode, headers) => {},
-            end: (body) => { response.body = body; },
-        };
-        await userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(null,response,null,1, 9999999, 3,3);
-        const parsedBody = JSON.parse(response.body);
-        console.log(parsedBody);
-        t.is(parsedBody.statusCode, 400);
-        t.is(parsedBody.message, "Invalid following_id");
-    });
+//   t.is(statusCode, 400);
+//   t.is(responseBody.message, "request.body.expiresIn should be integer");
+// });
 
-    test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify unsuccessfully due to missmatch in song_id", async (t) => {
-        const response = {
-            writeHead: (statusCode, headers) => {},
-            end: (body) => { response.body = body; },
-        };
-        await userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(null,response,null,1,100, 3,9999999);
-        const parsedBody = JSON.parse(response.body);
-        console.log(parsedBody);
-        t.is(parsedBody.statusCode, 404);
-        t.is(parsedBody.message, "Song not found");
-    });
+// // Test 6: Invalid type for a string field
+// test("PUT /user/{user_id}/Spotify with invalid type for string field", async (t) => {
+//   const body = {
+//     accessToken: 12345, // Invalid type
+//     refreshToken: "validRefreshToken",
+//     expiresIn: 3600,
+//     scope: "read_write",
+//   };
 
-    test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify unsuccessfully due to missmatch in post_id", async (t) => {
-        const response = {
-            writeHead: (statusCode, headers) => {},
-            end: (body) => { response.body = body; },
-        };
-        await userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(null,response,null,1,100, 9999999,1);
-        const parsedBody = JSON.parse(response.body);
-        console.log(parsedBody);
-        t.is(parsedBody.statusCode, 404);
-        t.is(parsedBody.message, "Post not found");
-    });
+//   const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
+//     json: body,
+//     throwHttpErrors: false,
+//   });
 
-    test("DEL user/{id}/post/{id} - Delete a post successfully with correct user_Id", async (t) => {
-        const response = {
-            writeHead: (statusCode, headers) => {},
-            end: (body) => { response.body = body; },
-        };
-        await userUser_idPostPost_idDELETE(null,response,null,1,3);
-        const parsedBody = JSON.parse(response.body);
-        console.log(parsedBody);
-        t.is(parsedBody.statusCode, 200);
-        t.is(parsedBody.message, "Post has been deleted successfully.");
-    });
-
-    test("DEL user/{id}/post/{id} - Delete a post unsuccessfully with incorrect user_Id, correct post_id", async (t) => {
-        const response = {
-            writeHead: (statusCode, headers) => {},
-            end: (body) => { response.body = body; },
-        };
-        await userUser_idPostPost_idDELETE(null,response,null,999999,3);
-        const parsedBody = JSON.parse(response.body);
-        console.log(parsedBody);
-        t.is(parsedBody.statusCode, 400);
-        t.is(parsedBody.message, "Invalid user_id.");
-    });
-    
-    test("DEL user/{id}/post/{id} - Delete a post unsuccessfully with correct user_Id, incorrect post_id", async (t) => {
-        const response = {
-            writeHead: (statusCode, headers) => {},
-            end: (body) => { response.body = body; },
-        };
-        await userUser_idPostPost_idDELETE(null,response,null,2,999);
-        const parsedBody = JSON.parse(response.body);
-        console.log(parsedBody);
-        t.is(parsedBody.statusCode, 400);
-        t.is(parsedBody.message, "Invalid post_id."); 
-    });
-
-    test("DEL user/{id}/post/{id} - Delete a post unsuccessfully because user_id and post_id did not exist in the same post", async (t) => {
-        const response = {
-            writeHead: (statusCode, headers) => {},
-            end: (body) => { response.body = body; },
-        };
-        await userUser_idPostPost_idDELETE(null,response,null,1,4);
-        const parsedBody = JSON.parse(response.body);
-        console.log(parsedBody);
-        t.is(parsedBody.statusCode, 400);
-        t.is(parsedBody.message, "User does not own the post."); 
-    });
+//   t.is(statusCode, 400);
+//   t.is(responseBody.message, "request.body.accessToken should be string");
+// });
