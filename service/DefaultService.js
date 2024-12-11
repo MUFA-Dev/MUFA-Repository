@@ -1,6 +1,6 @@
 'use strict';
 
-//const validUserIds = [1, 7, 10, 30, 32, 40]; // Υποθετικοί έγκυροι `user_id`
+const validUserIds = [1, 7, 10, 30, 32, 40]; // Υποθετικοί έγκυροι `user_id`
 const posts = []; // Προσωρινός αποθηκευτικός χώρος για posts
 const user_ids = [1, 7, 10, 30, 32, 40];
 const following_ids = [3, 8, 15, 13, 39, 101, 117];
@@ -36,8 +36,8 @@ exports.userUser_idFollowingFollowing_idDELETE = function (user_id, following_id
     // Step 2: Έλεγχος αν υπάρχει το user_id
     if (!user_ids.includes(user_id)) {
       return reject({
-        code: 404,
-        message: "Response code 404 (Unauthorized): User_id not found.",
+        code: 400,
+        message: "Response code 400 (Unauthorized): User_id not found.",
       });
     }
 
@@ -68,23 +68,6 @@ exports.userUser_idFollowingFollowing_idDELETE = function (user_id, following_id
   });
 };
 
-
-// exports.userUser_idSongGET = function (user_id, song_name, song_artist, song_genre, song_album) {
-//   return new Promise(function (resolve, reject) {
-//     //ελεγχος αν το user_id εχει valid τιμη
-//      if (!Number.isInteger(user_id) || user_id < 1 || user_id > 120) {
-//       return reject({ code: 400, message: "Invalid user_id. It must be an integer between 1 and 120." });
-//     }
-//     //ελεγχος αν το user_id ανηκει στα user_ids
-//      if (!user_ids.includes(user_id)) {
-//       return reject({ code: 400, message: "User_id not found." });
-//    }
-
-//     // Αν όλα είναι σωστά, επιστρέφουμε το αποτέλεσμα με κωδικό 200
-//     resolve({ code: 200, message: filteredSongs });
-//   });
-// };
-
 ///////////      POST user/{user_id}/post      ////////////////
 
 exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, song_canvas, user_id) {
@@ -99,25 +82,11 @@ exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, son
     // Έλεγχος αν το user_id υπάρχει
     if (!validUserIds.includes(user_id)) {
       return reject({
-        code: 404,
+        code: 400,
         message: "User not found.",
       });
     }
     
-  // // Έλεγχος για προαιρετικά πεδία και τύπους δεδομένων
-
-  // if (song_lyrics && typeof (song_lyrics) !== "string") {
-  //     return reject({
-  //       code: 400,
-  //       message: "Invalid data type for song_lyrics. It must be a string.",
-  //     });
-  //    }
-    // if (song_canvas && typeof song_canvas !== "string") {
-    //   return reject({
-    //     code: 400,
-    //     message: "Invalid data type for song_canvas. It must be a string.",
-    //   });
-    // }
      // Δημιουργία του νέου post
    const newPost = {
       id: posts.length + 1, // Auto-increment ID
@@ -127,8 +96,6 @@ exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, son
       song_album_cover,
       song_canvas,
     };
-
-    
     posts.push(newPost); // Αποθήκευση στη μνήμη
     resolve(newPost); // Επιστροφή της απάντησης
   });
@@ -137,15 +104,20 @@ exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, son
 ///////////      PUT user/{user_id}/Spotify      ////////////////
 
 exports.userUser_idSpotifyPUT = function(body,user_id) {
+  console.log(user_id);
   return new Promise(function (resolve, reject) {
   // Check if user_id is a number
   if (!Number.isInteger(user_id)||user_id <= 0) {
-    return reject({ status: 400, message: "Invalid user_id. Must be an integer." });
+    return reject({ 
+      status: 400, 
+      message: "Invalid user_id. Must be an integer." });
   }
 
   // Check if body is an object
   if (!body || typeof body !== "object") {
-    return reject({ status: 400, message: "Invalid body. Must be an object." });
+    return reject({ 
+      status: 400, 
+      message: "Invalid body. Must be an object." });
   }
 
   // Validate required fields in body
@@ -169,16 +141,18 @@ exports.userUser_idSpotifyPUT = function(body,user_id) {
 
   
   // Successful validation
-  response=({
-    status: 200, 
+  const response = {
+    status: 200,
     message: "Sync successful",
     data: {
       accessToken: body.accessToken,
       refreshToken: body.refreshToken,
       expiresIn: body.expiresIn,
       scope: body.scope,
-    }}
-  );
-   
+    },
+  };
+
+  resolve(response); // Ensure the promise resolves with the response
 });
 };
+
