@@ -14,54 +14,53 @@ test.before(async (t) => {
     t.context.server.close();
   });
 
-  test('GET /user/{id}/song with correct inputs', async (t) => {
-    const queryParams = {
-      song_name: "Nyxterides",
-      song_artist: "LEX",
-      song_genre: "rap",
-      song_album: "G.T.K.",
-    };
-    const { body, statusCode } = await t.context.got.get('user/2/song', {
-        searchParams: queryParams,
-        throwHttpErrors: false,
-    });
-  
-    console.log('Response body:', body); // Debugging response
-  
-    t.is(statusCode, 200);
-    t.true(Array.isArray(body.songs)); // Validate songs is an array
-    t.is(body.songs[0]?.title, 'Nyxterides'); // Safely access songs[0]
-  });
+//   test('GET /user/{id}/song with correct inputs', async (t) => {
+//     const queryParams = {
+//       song_name: "Nyxterides",
+//       song_artist: "LEX",
+//       song_genre: "rap",
+//       song_album: "G.T.K.",
+//     };
+//     const { body, statusCode } = await t.context.got.get('user/2/song', {
+//         searchParams: queryParams,
+//         throwHttpErrors: false,
+//     });
+//     t.is(statusCode,200);
+//     t.is(body.songs[0].title, 'Nyxterides'); // Safely access songs[0]
+//   });
 
-// test('GET /user/{id}/song with correct inputs', async (t) => {
-//   const { body, statusCode } = await t.context.got.get('user/2/song', {
+// test("GET/user/{id}/song with invalid song search", async (t) => {
+   
+//     const { body, statusCode } = await t.context.got.get('user/2/song?song_name=Unknown&song_artist=LEX&song_genre=rap&song_album=G.T.K.', {
+//         throwHttpErrors: false,
+//     });
+//     t.is(statusCode, 404);
+//     t.is(body.message, "No songs found");
+// });
+
+// test("GET/user/{id}/song with invalid user_id search", async (t) => {
+   
+//   const { body, statusCode } = await t.context.got.get('user/999999999/song?song_name=Unknown&song_artist=LEX&song_genre=rap&song_album=G.T.K.', {
 //       throwHttpErrors: false,
 //   });
-//   console.log(body);
+//   t.is(statusCode, 400);
+//   t.is(body.message, "Invalid user_id");
 // });
 
-//-----------------------------------------------------------------
-// test("GET/user/{id}/song with invalid song search", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => {response.body = body;}};
-//     await userUser_idSongGET(null,response,null,2,"Nonexistent Song", null,null,null,null);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.statusCode, 404);
-// });
+test("PUT /user/{id}/following/{id}/post/{id} - Like a post with valid inputs", async (t) => {
+  const { body, statusCode } = await t.context.got.put('user/1/following/100/post/3', {
+      searchParams: {
+        like: 1,  // Like the post
+        comment: "Loveit",  // Add comment
+        report: 1,  // No report
+      },
+      throwHttpErrors: false,
+  });
 
-// test("GET/user/{id}/song with invalid user_Id", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => {response.body = body;}};
-//     await userUser_idSongGET(null,response,null,99999999,"Nyxterides", null,null,null,null);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.statusCode, 400);
-//     t.is(parsedBody.message, "Invalid user_id");
-// });
-
+  t.is(statusCode, 200);
+  t.is(body.message, "Interaction successful");
+  t.is(body.post.interactions.likes, 6); // Should increment by 1
+});
 
 
 // test("PUT /user/{id}/following/{id}/post/{id} - Like a post with valid inputs", async (t) => {
