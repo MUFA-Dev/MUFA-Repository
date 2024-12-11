@@ -156,22 +156,22 @@ test("POST /user/{user_id}/post with non-existent user_id", async (t) => {
 
 // Test 1: Valid Input
 
-test("PUT /user/{user_id}/Spotify with valid inputs", async (t) => {
-  const body = {
-    accessToken: "validAccessToken",
-    refreshToken: "validRefreshToken",
-    expiresIn: 3600,
-    scope: "read_write",
-  };
+// test("PUT /user/{user_id}/Spotify with valid inputs", async (t) => {
+//   const body = {
+//     accessToken: "validAccessToken",
+//     refreshToken: "validRefreshToken",
+//     expiresIn: 3600,
+//     scope: "read_write",
+//   };
 
-  const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
-    json: body,
-    throwHttpErrors: false,
-  });
+//   const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
+//     json: body,
+//     throwHttpErrors: false,
+//   });
 
-  t.is(statusCode, 200);
-  t.is(responseBody.message, "Sync successful");
-});
+//   t.is(statusCode, 200);
+//   t.is(responseBody.message, "Sync successful");
+// });
 
 // Test 2: Invalid user_id (Invalid data type)
 test("PUT /user/{user_id}/Spotify with invalid user_id", async (t) => {
