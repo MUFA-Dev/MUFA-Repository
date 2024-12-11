@@ -34,10 +34,12 @@ jobs:
         with:
           start: npm start
           wait-on: 'http://localhost:8080/docs' 
+
   cd:
     runs-on: ubuntu-latest
     needs: ci
     steps:
+
       - name: Debug
         run: echo "CD job started"
       - name: Deploy to Render
