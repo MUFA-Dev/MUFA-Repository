@@ -1,23 +1,22 @@
 'use strict';
-exports.userUser_idSongGET = function (user_id, song_name, song_artist, song_genre, song_album) {
-  return new Promise((resolve, reject) => {
-    // Inline mock songs data
-    const mockSongs = [
-      {
-        title: "Nyxterides",
-        artist: "LEX",
-        genre: "rap",
-        album: "G.T.K.",
-      },
-      {
-        title: "Dreaming Big",
-        artist: "John Doe",
-        genre: "pop",
-        album: "Dreamers",
-      },
-      // Add more songs as needed
-    ];
+const mockSongs = [
+  {
+    title: "Nyxterides",
+    artist: "LEX",
+    genre: "rap",
+    album: "G.T.K.",
+  },
+  {
+    title: "Dreaming Big",
+    artist: "John Doe",
+    genre: "pop",
+    album: "Dreamers",
+  },
+];
 
+
+exports.userUser_idSongGET = function (user_id, song_name, song_artist, song_genre, song_album) {
+  return new Promise(function(resolve, reject){
     // Validate user_id range
     if (user_id <= 0 || user_id >= 1000) {
       return reject({
@@ -43,8 +42,7 @@ exports.userUser_idSongGET = function (user_id, song_name, song_artist, song_gen
         statusCode: 200,
         songs: matchedSongs,
       });
-    } else {
-      console.log("No Songs Found");
+    }else {
       reject({
         statusCode: 404,
         message: "No songs found",

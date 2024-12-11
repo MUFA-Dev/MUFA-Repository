@@ -14,19 +14,33 @@ test.before(async (t) => {
     t.context.server.close();
   });
 
-
   test('GET /user/{id}/song with correct inputs', async (t) => {
+    const queryParams = {
+      song_name: "Nyxterides",
+      song_artist: "LEX",
+      song_genre: "rap",
+      song_album: "G.T.K.",
+    };
     const { body, statusCode } = await t.context.got.get('user/2/song', {
-        searchParams: {
-            song_name: 'Nyxterides',
-        },
+        searchParams: queryParams,
         throwHttpErrors: false,
     });
-
+  
+    console.log('Response body:', body); // Debugging response
+  
     t.is(statusCode, 200);
-    t.is(body.songs[0].title, 'Nyxterides');
-});
+    t.true(Array.isArray(body.songs)); // Validate songs is an array
+    t.is(body.songs[0]?.title, 'Nyxterides'); // Safely access songs[0]
+  });
 
+// test('GET /user/{id}/song with correct inputs', async (t) => {
+//   const { body, statusCode } = await t.context.got.get('user/2/song', {
+//       throwHttpErrors: false,
+//   });
+//   console.log(body);
+// });
+
+//-----------------------------------------------------------------
 // test("GET/user/{id}/song with invalid song search", async (t) => {
 //     const response = {
 //         writeHead: (statusCode, headers) => {},
