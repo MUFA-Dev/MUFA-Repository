@@ -95,6 +95,8 @@ test("DELETE /user/{user_id}/following/{following_id} with following_id that doe
 ///POST ENDPOINT///
 //////////////////
 
+///////////      POST user/{user_id}/post      ////////////////
+
 // Test 1: Valid Input
 test("POST /user/{user_id}/post with valid inputs", async (t) => {
   const payload = {
@@ -122,8 +124,8 @@ test("POST /user/{user_id}/post with invalid user_id", async (t) => {
   t.is(body.message, "Invalid user_id. It must be a positive integer.");
 });
 
-// Test 3: Missing required fields
-test("POST /user/{user_id}/post with missing content", async (t) => {
+// Test 3: Invalid required fields
+test("POST /user/{user_id}/post with invalidcontent", async (t) => {
   
   const { body, statusCode } = await t.context.got.post("user/7/post", {
     searchParams: { song_lyrics: "12345", song_album_cover: "cover_example", song_canvas: "canvas_example" }, // Query Parameters
@@ -134,18 +136,8 @@ test("POST /user/{user_id}/post with missing content", async (t) => {
   t.is(body.message, "request.body.content should be string");
 });
 
-// // Test 4: Invalid data types for optional fields
-// test("POST /user/{user_id}/post with invalid data types", async (t) => {
-//   const { body, statusCode } = await t.context.got.post("user/7/post", {
-//     searchParams: { song_lyrics: true }, // Query Parameters
-//     json: { content: "12345" }, // Body Content
-//     throwHttpErrors: false,
-//   });
-//   t.is(statusCode, 400);
-//   t.is(body.message, "Invalid data type for song_lyrics. It must be a string.");
-// });
 
-// Test 5: Non-existent user_id
+// Test 4: Non-existent user_id
 test("POST /user/{user_id}/post with non-existent user_id", async (t) => {
   const payload = { content: "This is a valid post." };
   const { body, statusCode } = await t.context.got.post("user/999/post", {
@@ -154,4 +146,98 @@ test("POST /user/{user_id}/post with non-existent user_id", async (t) => {
   });
   t.is(statusCode, 404);
   t.is(body.message, "User not found.");
+});
+
+////////////////////
+///PUT ENDPOINT////
+//////////////////
+
+///////////      PUT user/{user_id}/Spotify      ////////////////
+
+// Test 1: Valid Input
+
+test("PUT /user/{user_id}/Spotify with valid inputs", async (t) => {
+  const body = {
+    accessToken: "validAccessToken",
+    refreshToken: "validRefreshToken",
+    expiresIn: 3600,
+    scope: "read_write",
+  };
+
+  const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
+    json: body,
+    throwHttpErrors: false,
+  });
+
+  t.is(statusCode, 200);
+  t.is(responseBody.message, "Sync successful");
+});
+
+// Test 2: Invalid user_id (Invalid data type)
+test("PUT /user/{user_id}/Spotify with invalid user_id", async (t) => {
+  const body = {
+    accessToken: "validAccessToken",
+    refreshToken: "validRefreshToken",
+    expiresIn: 3600,
+    scope: "read_write",
+  };
+
+  const { body: responseBody, statusCode } = await t.context.got.put("user/not-a-number/spotify", {
+    json: body,
+    throwHttpErrors: false,
+  });
+
+  t.is(statusCode, 400);
+  t.is(responseBody.message, "request.params.user_id should be integer");
+});
+
+// Test 3: Invalid body (not an object)
+test("PUT /user/{user_id}/Spotify with invalid body", async (t) => {
+  const body = "not-an-object"; // Invalid body
+
+  const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
+    json: body,
+    throwHttpErrors: false,
+  });
+
+  t.is(statusCode, 400);
+  
+});
+
+
+
+// Test 5: Incorrect type in body fields
+test("PUT /user/{user_id}/Spotify with incorrect type in body", async (t) => {
+  const body = {
+    accessToken: "validAccessToken",
+    refreshToken: "validRefreshToken",
+    expiresIn: "not-an-integer", // Invalid type
+    scope: "read_write",
+  };
+
+  const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
+    json: body,
+    throwHttpErrors: false,
+  });
+
+  t.is(statusCode, 400);
+  t.is(responseBody.message, "request.body.expiresIn should be integer");
+});
+
+// Test 6: Invalid type for a string field
+test("PUT /user/{user_id}/Spotify with invalid type for string field", async (t) => {
+  const body = {
+    accessToken: 12345, // Invalid type
+    refreshToken: "validRefreshToken",
+    expiresIn: 3600,
+    scope: "read_write",
+  };
+
+  const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
+    json: body,
+    throwHttpErrors: false,
+  });
+
+  t.is(statusCode, 400);
+  t.is(responseBody.message, "request.body.accessToken should be string");
 });

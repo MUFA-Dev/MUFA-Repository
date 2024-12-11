@@ -14,6 +14,13 @@ const userSongs = {
     { id: 4, title: "Song D", artist: "Artist 3", album: "Album W", genre: "Classical" },
   ],
 };
+const REQUIRED_SPOTIFY_FIELDS = {
+  accessToken: 'string',
+  refreshToken: 'string',
+  expiresIn: 'integer',
+  scope: 'string'
+};
+
 
 
 exports.userUser_idFollowingFollowing_idDELETE = function (user_id, following_id) {
@@ -78,6 +85,8 @@ exports.userUser_idFollowingFollowing_idDELETE = function (user_id, following_id
 //   });
 // };
 
+///////////      POST user/{user_id}/post      ////////////////
+
 exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, song_canvas, user_id) {
   return new Promise(function (resolve, reject) {
     // Έλεγχος αν το user_id είναι έγκυρο
@@ -87,7 +96,6 @@ exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, son
         message: "Invalid user_id. It must be a positive integer.",
       });
     }
-
     // Έλεγχος αν το user_id υπάρχει
     if (!validUserIds.includes(user_id)) {
       return reject({
@@ -95,22 +103,21 @@ exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, son
         message: "User not found.",
       });
     }
+    
+  // // Έλεγχος για προαιρετικά πεδία και τύπους δεδομένων
 
-    // Έλεγχος για προαιρετικά πεδία και τύπους δεδομένων
-    if (song_lyrics && typeof (song_lyrics) !== "string") {
-      return reject({
-        code: 400,
-        message: "Invalid data type for song_lyrics. It must be a string.",
-      });
-    }
-
-    if (song_canvas && typeof song_canvas !== "string") {
-      return reject({
-        code: 400,
-        message: "Invalid data type for song_canvas. It must be a string.",
-      });
-    }
-
+  // if (song_lyrics && typeof (song_lyrics) !== "string") {
+  //     return reject({
+  //       code: 400,
+  //       message: "Invalid data type for song_lyrics. It must be a string.",
+  //     });
+  //    }
+    // if (song_canvas && typeof song_canvas !== "string") {
+    //   return reject({
+    //     code: 400,
+    //     message: "Invalid data type for song_canvas. It must be a string.",
+    //   });
+    // }
      // Δημιουργία του νέου post
    const newPost = {
       id: posts.length + 1, // Auto-increment ID
@@ -127,3 +134,51 @@ exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, son
   });
 };
 
+///////////      PUT user/{user_id}/Spotify      ////////////////
+
+exports.userUser_idSpotifyPUT = function(body,user_id) {
+  return new Promise(function (resolve, reject) {
+  // Check if user_id is a number
+  if (!Number.isInteger(user_id)||user_id <= 0) {
+    return reject({ status: 400, message: "Invalid user_id. Must be an integer." });
+  }
+
+  // Check if body is an object
+  if (!body || typeof body !== "object") {
+    return reject({ status: 400, message: "Invalid body. Must be an object." });
+  }
+
+  // Validate required fields in body
+  const REQUIRED_SPOTIFY_FIELDS = {
+    accessToken: "string",
+    refreshToken: "string",
+    expiresIn: "integer",
+    scope: "string",
+  };
+
+  const missingFields = [];
+  for (const [field, type] of Object.entries(REQUIRED_SPOTIFY_FIELDS)) {
+    if (!body.hasOwnProperty(field)) {
+      missingFields.push(field);
+    } else if (type === "string" && typeof body[field] !== "string") {
+      return reject({ status: 400, message: `Invalid type for ${field}. Expected string.` });
+    } else if (type === "integer" && !Number.isInteger(body[field])) {
+      return reject({ status: 400, message: `Invalid type for ${field}. Expected integer.` });
+    }
+  }
+
+  
+  // Successful validation
+  resolve({ 
+    status: 200, 
+    message: "Sync successful",
+    data: {
+      accessToken: body.accessToken,
+      refreshToken: body.refreshToken,
+      expiresIn: body.expiresIn,
+      scope: body.scope,
+    }
+  });
+   
+});
+};

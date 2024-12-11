@@ -9,19 +9,28 @@ module.exports.userUser_idFollowingFollowing_idDELETE = function userUser_idFoll
       utils.writeJson(res, response, response.code);
     })
     .catch(function (err) {
-      utils.writeJson(res, err, err.code || 500);
+      utils.writeJson(res, err, err.code);
     });
 };
 
 
 module.exports.userUser_idPostPOST = function userUser_idPostPOST(req, res, next, body, song_lyrics, song_album_cover, song_canvas, user_id) {
-  // Καλούμε το Service με όλα τα απαραίτητα πεδία
   DefaultService.userUser_idPostPOST(body, song_lyrics, song_album_cover, song_canvas, user_id)
     .then(function (response) {
-      utils.writeJson(res, response, 201); // HTTP 201: Created
+      utils.writeJson(res, response, 201); 
     })
     .catch(function (err) {
-      utils.writeJson(res, { message: err.message }, err.code || 500);
+      utils.writeJson(res, { message: err.message }, err.code );
+    });
+};
+
+module.exports.userUser_idSpotifyPUT = function userUser_idSpotifyPUT (req, res, next, body, user_id) {
+  Default.userUser_idSpotifyPUT(body, user_id)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (err) {
+      utils.writeJson(res, { message: err.message }, err.code||500);
     });
 };
 
