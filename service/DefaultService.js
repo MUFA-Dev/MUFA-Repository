@@ -104,7 +104,6 @@ exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, son
 ///////////      PUT user/{user_id}/Spotify      ////////////////
 
 exports.userUser_idSpotifyPUT = function(body,user_id) {
-  console.log(user_id);
   return new Promise(function (resolve, reject) {
   // Check if user_id is a number
   if (!Number.isInteger(user_id)||user_id <= 0) {
@@ -156,3 +155,44 @@ exports.userUser_idSpotifyPUT = function(body,user_id) {
 });
 };
 
+///////////      GET  user/{user_id}/Spotify      ////////////////
+
+exports.userUser_idSongGET = function(user_id,song_name,song_artist,song_genre,song_album) {
+  return new Promise(function(resolve, reject) {
+    console.log(user_id);
+      // Input validation
+      if (!Number.isInteger(user_id)||user_id <= 0) {
+        return reject({ message: 'request.params.user_id should be integer', code: 400 });
+      }
+      if (song_name && typeof song_name !== 'string') {
+        return reject({ message: 'request.query.song_name should be string', code: 400 });
+      }
+      if (song_artist && typeof song_artist !== 'string') {
+        return reject({ message: 'request.query.song_artist should be string', code: 400 });
+      }
+      if (song_genre && typeof song_genre !== 'string') {
+        return reject({ message: 'request.query.song_genre should be string', code: 400 });
+      }
+      if (song_album && typeof song_album !== 'string') {
+        return reject({ message: 'request.query.song_album should be string', code: 400 });
+      }
+  
+      // Mock example data
+      const examples = [
+        { id: 1, title: 'Song A', artist: 'Artist A', album: 'Album A', genre: 'Genre A' },
+        { id: 2, title: 'Song B', artist: 'Artist B', album: 'Album B', genre: 'Genre B' }
+      ];
+  
+      // Filter results based on the query parameters
+      const results = examples.filter(song => {
+        return (
+          (!song_name || song.title.includes(song_name)) &&
+          (!song_artist || song.artist.includes(song_artist)) &&
+          (!song_genre || song.genre.includes(song_genre)) &&
+          (!song_album || song.album.includes(song_album))
+        );
+      });
+  
+      resolve(results);
+    });
+  };
