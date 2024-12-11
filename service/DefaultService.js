@@ -1,6 +1,6 @@
 'use strict';
 
-const validUserIds = [1, 7, 10, 30, 32, 40]; // Υποθετικοί έγκυροι `user_id`
+//const validUserIds = [1, 7, 10, 30, 32, 40]; // Υποθετικοί έγκυροι `user_id`
 const posts = []; // Προσωρινός αποθηκευτικός χώρος για posts
 const user_ids = [1, 7, 10, 30, 32, 40];
 const following_ids = [3, 8, 15, 13, 39, 101, 117];
@@ -36,8 +36,8 @@ exports.userUser_idFollowingFollowing_idDELETE = function (user_id, following_id
     // Step 2: Έλεγχος αν υπάρχει το user_id
     if (!user_ids.includes(user_id)) {
       return reject({
-        code: 400,
-        message: "Response code 400 (Unauthorized): User_id not found.",
+        code: 404,
+        message: "Response code 404 (Unauthorized): User_id not found.",
       });
     }
 
@@ -169,7 +169,7 @@ exports.userUser_idSpotifyPUT = function(body,user_id) {
 
   
   // Successful validation
-  resolve({ 
+  response=({
     status: 200, 
     message: "Sync successful",
     data: {
@@ -177,8 +177,8 @@ exports.userUser_idSpotifyPUT = function(body,user_id) {
       refreshToken: body.refreshToken,
       expiresIn: body.expiresIn,
       scope: body.scope,
-    }
-  });
+    }}
+  );
    
 });
 };
