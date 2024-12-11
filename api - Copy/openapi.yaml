@@ -1,0 +1,558 @@
+openapi: 3.0.0
+info:
+  title: Music Social Media API
+  description: API for a social media app focused on music interactions.
+  version: 1.0.0
+paths:
+  /user/{user_id}/song:
+    get:
+      summary: Search for a song
+      operationId: userUser_idSongGET
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: song_name
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: song_artist
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: song_genre
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: song_album
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A list of songs matching the search criteria.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Song'
+                x-content-type: application/json
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+  /user/{user_id}/post:
+    put:
+      summary: Customize a post
+      operationId: userUser_idPostPUT
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: song_lyrics
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: song_album_cover
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: song_canvas
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      responses:
+        "200":
+          description: Post updated successfully
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+    post:
+      summary: Create a post
+      operationId: userUser_idPostPOST
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: song_lyrics
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: song_album_cover
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: song_canvas
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+        required: true
+      responses:
+        "201":
+          description: Post created successfully
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+  /user/{user_id}/post/{post_id}:
+    delete:
+      summary: Delete a post
+      operationId: userUser_idPostPost_idDELETE
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: post_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Post deleted successfully
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+  /user/{user_id}/following/{following_id}:
+    put:
+      summary: Follow a user
+      operationId: userUser_idFollowingFollowing_idPUT
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: following_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Followed successfully
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+    delete:
+      summary: Unfollow a user
+      operationId: userUser_idFollowingFollowing_idDELETE
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: following_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Unfollowed successfully
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+  /user/{user_id}/following/{following_id}/post/{post_id}:
+    put:
+      summary: Interact with a following user's post
+      operationId: userUser_idFollowingFollowing_idPostPost_idPUT
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: following_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: post_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: like
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: comment
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: report
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Interaction successful
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+  /user/{user_id}/following/{following_id}/post/{post_id}/comment/{comment_id}:
+    put:
+      summary: Interact with a following user's post comment
+      operationId: userUser_idFollowingFollowing_idPostPost_idCommentComment_idPUT
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: following_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: post_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: comment_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: like
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: reply
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: report
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      responses:
+        "200":
+          description: Interaction successful
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+  /user/{user_id}/spotify:
+    put:
+      summary: Sync the app with Spotify
+      operationId: userUser_idSpotifyPUT
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Spotify'
+        required: true
+      responses:
+        "200":
+          description: Sync successful
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+  /user/{user_id}/following/{following_id}/post/{post_id}/song/{song_id}:
+    put:
+      summary: Add a following user's post's song to Spotify
+      operationId: userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: following_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: post_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: song_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Song added to Spotify successfully
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+  /user/{user_id}/notifications/posts:
+    get:
+      summary: Get notifications for a user's posts
+      operationId: userUser_idNotificationsPostsGET
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: A list of notifications for the user's posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+                x-content-type: application/json
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+  /user/{user_id}/notifications/comments:
+    get:
+      summary: Get notifications for a user's comments
+      operationId: userUser_idNotificationsCommentsGET
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: A list of notifications for the user's comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+                x-content-type: application/json
+        "400":
+          description: Bad request
+      x-swagger-router-controller: Default
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Song:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        artist:
+          type: string
+        album:
+          type: string
+        genre:
+          type: string
+      example:
+        artist: artist
+        album: album
+        genre: genre
+        id: 0
+        title: title
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        songId:
+          type: integer
+        customizations:
+          $ref: '#/components/schemas/Post_customizations'
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        message:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        read:
+          type: boolean
+      example:
+        read: true
+        created_at: 2000-01-23T04:56:07.000+00:00
+        id: 0
+        type: type
+        message: message
+    Spotify:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        expiresIn:
+          type: integer
+        scope:
+          type: string
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        postId:
+          type: integer
+        userId:
+          type: integer
+        content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Following:
+      type: object
+      properties:
+        Id:
+          type: integer
+        username:
+          type: string
+    Post_customizations:
+      type: object
+      properties:
+        song_lyrics:
+          type: string
+        song_album_cover:
+          type: string
+        song_canvas:
+          type: string
