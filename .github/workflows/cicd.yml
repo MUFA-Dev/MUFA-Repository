@@ -1,10 +1,6 @@
-name: cicd
+name: ci
 
-on:
-  push:
-    branches:
-      - main
-      - Dev--George  
+on: push
 
 jobs:
   ci:
@@ -17,35 +13,27 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16
+      - name: Install dependencies
+        run: 
+          npm install 
+      - name: Fix ava permissions
+        run: chmod +x ./node_modules/.bin/ava  
 
-      - name: Clean and install dependencies
-        run: |
-          npm ci
-          npm install foreground-child
-
+      - name: Fix c8 permissions
+        run: chmod +x ./node_modules/.bin/c8    
+        
       - name: Verify dependencies
         run: npm ls
 
-      - name: Run tests
-        run: npx c8 ava
-
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          start: npm start
-          wait-on: 'http://localhost:8080/docs' 
-
+      - name: Run test
+        run: npm test
+        
   cd:
     runs-on: ubuntu-latest
     needs: ci
     steps:
-
-      - name: Debug
-        run: echo "CD job started"
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          service-id: ${{ secrets.RENDER_SERVICE_ID_DOOJY }}
-          api-key: ${{ secrets.RENDER_API_KEY_DOOJY }}
-      - name: Confirm Deployment
-        run: echo "Deployment to Render completed successfully"
+          service-id: ${{ secrets.RENDER_SERVICE_ID_ALEX }}
+          api-key: ${{ secrets.RENDER_API_KEY_ALEX }}
