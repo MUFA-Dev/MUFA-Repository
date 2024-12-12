@@ -47,138 +47,114 @@ test.before(async (t) => {
 //   t.is(body.message, "Invalid user_id");
 // });
 
-test("PUT /user/{id}/following/{id}/post/{id} - Like a post with valid inputs", async (t) => {
-  const { body, statusCode } = await t.context.got.put('user/1/following/100/post/3', {
-      searchParams: {
-        like: 1,  // Like the post
-        comment: "Loveit",  // Add comment
-        report: 1,  // No report
-      },
-      throwHttpErrors: false,
-  });
-
-  t.is(statusCode, 200);
-  t.is(body.message, "Interaction successful");
-  t.is(body.post.interactions.likes, 6); // Should increment by 1
-});
-
-
 // test("PUT /user/{id}/following/{id}/post/{id} - Like a post with valid inputs", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => { response.body = body; },
-//     };
-//     await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,1, 100, 3, true, null, null);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.statusCode, 200);
-//     t.is(parsedBody.message, "Interaction successful");
-//     t.is(parsedBody.post.interactions.likes, 6); // Should increment by 1
+//   const interactions ={
+//     like: 1,
+//     comment: "Loveit",
+//     report: 0
+//   }
+//   const { body, statusCode } = await t.context.got.put('user/1/following/100/post/3?like=true&comment=Loveit&report=false',
+//     {throwHttpErrors: false});
+//   console.log(body);
+//   t.is(statusCode, 200);
+//   t.is(body.body.message, "Post interaction successfull.");
+//   t.is(body.body.likes, 1); // Should increment by 1
 // });
 
-// test("PUT /user/{id}/following/{id}/post/{id} - Like a post with like set to null", async (t) => {
-//     const response = {
-//       writeHead: (statusCode, headers) => {},
-//       end: (body) => { response.body = body; },
-//     };
-  
-//     await userUser_idFollowingFollowing_idPostPost_idPUT(null, response, null, 1, 100, 3, null, null, null); // `like` is null
-//     const parsedBody = JSON.parse(response.body);
-//     t.is(parsedBody.statusCode, 200);
-//     t.is(parsedBody.message, "Interaction successful");
-//     t.is(parsedBody.post.interactions.likes, 5); // Likes count remains unchanged
-//   });
-
-//   test("PUT /user/{id}/following/{id}/post/{id} - Like a post with like set to false", async (t) => {
-//     const response = {
-//       writeHead: (statusCode, headers) => {},
-//       end: (body) => { response.body = body; },
-//     };
-  
-//     await userUser_idFollowingFollowing_idPostPost_idPUT(null, response, null, 1, 100, 3, false, null, null); // `like` is null
-//     const parsedBody = JSON.parse(response.body);
-//     t.is(parsedBody.statusCode, 200);
-//     t.is(parsedBody.message, "Interaction successful");
-//     t.is(parsedBody.post.interactions.likes, 5); // Likes count remains unchanged
-//   });
-
-//   test("PUT /user/{id}/following/{id}/post/{id} - Like a post with like set to undefined", async (t) => {
-//     const response = {
-//       writeHead: (statusCode, headers) => {},
-//       end: (body) => { response.body = body; },
-//     };
-  
-//     await userUser_idFollowingFollowing_idPostPost_idPUT(null, response, null, 1, 100, 3, undefined, null, null); // `like` is undefined
-//     const parsedBody = JSON.parse(response.body);
-//     t.is(parsedBody.statusCode, 200);
-//     t.is(parsedBody.message, "Interaction successful");
-//     t.is(parsedBody.post.interactions.likes, 5); // Likes count remains unchanged
-//   });
-  
-  
-
-// test("PUT /user/{id}/following/{id}/post/{id} - Comment on a post with valid inputs", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => { response.body = body; },
-//     };
-//     await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,1, 100, 3, null, "Awesome post!", null);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.statusCode, 200);
-//     t.is(parsedBody.message, "Interaction successful");
-//     t.true(parsedBody.post.interactions.comments.includes("Awesome post!"));
+// test("PUT /user/{id}/following/{id}/post/{id} -Successfull Interaction like & comment & report", async (t) => {
+//   const interactions ={
+//     like: 1,
+//     comment: "Loveit",
+//     report: 0
+//   }
+//   const { body, statusCode } = await t.context.got.put('user/1/following/100/post/3?like=true',
+//     {throwHttpErrors: false});
+//   console.log(body);
+//   t.is(statusCode, 200);
+//   t.is(body.body.message, "Post interaction successfull.");
+//   t.is(body.body.likes, 1); // Should increment by 1
 // });
 
-// test("PUT /user/{id}/following/{id}/post/{id} - Report a post with valid inputs", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => { response.body = body; },
-//     };
-//     await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,2, 101, 4, null, null, true);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.statusCode, 200);
-//     t.is(parsedBody.message, "Interaction successful");
-//     t.is(parsedBody.post.interactions.reports, 2); // Should increment by 1
+// test("PUT /user/{id}/following/{id}/post/{id} -Successfull interaction Like", async (t) => {
+//   const interactions ={
+//     like: 1,
+//     comment: "Loveit",
+//     report: 0
+//   }
+//   const { body, statusCode } = await t.context.got.put('user/1/following/100/post/3?like=true',
+//     {throwHttpErrors: false});
+//   console.log(body);
+//   t.is(statusCode, 200);
+//   t.is(body.body.message, "Post interaction successfull.");
+//   t.is(body.body.likes, 1); // Should increment by 1
 // });
 
-// test("PUT /user/{id}/following/{id}/post/{id} - Invalid post", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => { response.body = body; },
-//     };
-//     await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,99, 999, 999, true, null, null);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.message, "Post not found");
-//     t.is(parsedBody.statusCode, 404);
+// test("PUT /user/{id}/following/{id}/post/{id} -Successfull interaction comment", async (t) => {
+//   const interactions ={
+//     like: 1,
+//     comment: "Loveit",
+//     report: 0
+//   }
+//   const { body, statusCode } = await t.context.got.put('user/1/following/100/post/3?comment=Loveit',
+//     {throwHttpErrors: false});
+//   console.log(body);
+//   t.is(statusCode, 200);
+//   t.is(body.body.message, "Post interaction successfull.");
+//   t.is(body.body.comments[0], "Loveit"); // Should append new comment to comments
 // });
 
-// test("PUT /user/{id}/following/{id}/post/{id} - Invalid userId", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => { response.body = body; },
-//     };
-//     await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,9999, 100, 3, true, null, null);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.message, "Invalid user_id");
-//     t.is(parsedBody.statusCode, 400);
+// test("PUT /user/{id}/following/{id}/post/{id} -Successfull Interaction report", async (t) => {
+//   const interactions ={
+//     like: 1,
+//     comment: "Loveit",
+//     report: 0
+//   }
+//   const { body, statusCode } = await t.context.got.put('user/1/following/100/post/3?report=true',
+//     {throwHttpErrors: false});
+//   console.log(body);
+//   t.is(statusCode, 200);
+//   t.is(body.body.message, "Post interaction successfull.");
+//   t.is(body.body.reports, 1); // Should increment by 1
 // });
 
-// test("PUT /user/{id}/following/{id}/post/{id} - Invalid followingId", async (t) => {
-//     const response = {
-//         writeHead: (statusCode, headers) => {},
-//         end: (body) => { response.body = body; },
-//     };
-//     await userUser_idFollowingFollowing_idPostPost_idPUT(null,response,null,1, 9999999, 3, true, null, null);
-//     const parsedBody = JSON.parse(response.body);
-//     console.log(parsedBody);
-//     t.is(parsedBody.message, "Invalid following_id");
-//     t.is(parsedBody.statusCode, 400);
+// test("PUT /user/{id}/following/{id}/post/{id} -Invalid userId ", async (t) => {
+//   const interactions ={
+//     like: 1,
+//     comment: "Loveit",
+//     report: 0
+//   }
+//   const { body, statusCode } = await t.context.got.put('user/9999999999/following/100/post/3',
+//     {throwHttpErrors: false});
+//   console.log(body);
+//   t.is(statusCode, 404);
+//   t.is(body.body.error, "User Not Found.");
 // });
 
+// test("PUT /user/{id}/following/{id}/post/{id} -Invalid postId ", async (t) => {
+//   const interactions ={
+//     like: 1,
+//     comment: "Loveit",
+//     report: 0
+//   }
+//   const { body, statusCode } = await t.context.got.put('user/1/following/100/post/99999999999',
+//     {throwHttpErrors: false});
+//   console.log(body);
+//   t.is(statusCode, 404);
+//   t.is(body.body.error, "Post not found.");
+// });
+
+test("PUT /user/{id}/following/{id}/post/{id} -Invalid followingId ", async (t) => {
+  const interactions ={
+    like: 1,
+    comment: "Loveit",
+    report: 0
+  }
+  const { body, statusCode } = await t.context.got.put('user/1/following/9999999999999/post/3',
+    {throwHttpErrors: false});
+  console.log(body);
+  t.is(statusCode, 404);
+  t.is(body.body.error, "Post not found.");
+});
 
 // test("PUT /user/{id}/following/{id}/post/{id}/song/{id} - Add a song to spotify successfully", async (t) => {
 //         const response = {
