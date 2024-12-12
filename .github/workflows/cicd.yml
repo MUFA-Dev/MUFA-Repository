@@ -1,6 +1,12 @@
 name: cicd
 
-on: push
+on:
+  push:
+    branches:
+      - Dev--Soki
+  pull_request:
+    branches:
+      - Dev--Soki
 
 jobs:
   ci:
