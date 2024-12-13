@@ -27,7 +27,6 @@
   "dependencies": {
     "body-parser": "^1.20.3",
     "connect": "^3.2.0",
-    "debug": "^4.4.0",
     "js-yaml": "^3.3.0",
     "oas3-tools": "^2.2.3"
   }
