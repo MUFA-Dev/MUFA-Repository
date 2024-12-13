@@ -25,7 +25,7 @@ jobs:
       - name: Verify dependencies
         run: npm ls
 
-        - name: Run tests
+      - name: Run tests
         run: npx c8 ava
 
       - name: Cypress run
