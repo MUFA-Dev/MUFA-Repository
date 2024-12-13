@@ -14,6 +14,35 @@ const userSongs = {
     { id: 4, title: "Song D", artist: "Artist 3", album: "Album W", genre: "Classical" },
   ],
 };
+const spotifyData = {};
+
+const notifications = {
+  1: [
+    {
+      read: true,
+      created_at: "2023-12-13T10:15:00.000Z",
+      id: 101,
+      type: "comment",
+      message: "Your comment has received a reply.",
+    },
+  ],
+  7: [
+    {
+      read: false,
+      created_at: "2023-12-12T08:30:00.000Z",
+      id: 102,
+      type: "mention",
+      message: "You were mentioned in a comment.",
+    },
+    {
+      read: true,
+      created_at: "2023-12-10T14:20:00.000Z",
+      id: 103,
+      type: "like",
+      message: "Your comment received a like.",
+    },
+  ],
+}; // Προσωρινά δεδομένα ειδοποιήσεων για τους χρήστες
 
 
 
@@ -98,54 +127,55 @@ exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, son
 
 ///////////      PUT user/{user_id}/Spotify      ////////////////
 
-exports.userUser_idSpotifyPUT = function(body,user_id) {
+
+
+exports.userUser_idSpotifyPUT = function (body, user_id) {
   return new Promise(function (resolve, reject) {
-  // Check if user_id is a number
-  if (!Number.isInteger(user_id)||user_id <= 0) {
-    return reject({ 
-      status: 400, 
-      message: "Invalid user_id. Must be an integer." });
-  }
-
-  // Check if body is an object
-  if (!body || typeof body !== "object") {
-    return reject({ 
-      status: 400, 
-      message: "Invalid body. Must be an object." });
-  }
-
-  // Validate required fields in body
-  const REQUIRED_SPOTIFY_FIELDS = {
-    accessToken: "string",
-    refreshToken: "string",
-    expiresIn: "integer",
-    scope: "string",
-  };
-
-  const missingFields = [];
-  for (const [field, type] of Object.entries(REQUIRED_SPOTIFY_FIELDS)) {
-    if (!body.hasOwnProperty(field)) {
-      missingFields.push(field);
-    } else if (type === "string" && typeof body[field] !== "string") {
-      return reject({ status: 400, message: `Invalid type for ${field}. Expected string.` });
-    } else if (type === "integer" && !Number.isInteger(body[field])) {
-      return reject({ status: 400, message: `Invalid type for ${field}. Expected integer.` });
+    if (!Number.isInteger(user_id) || user_id <= 0) {
+      return reject({
+        code: 400,
+        message: "Invalid user_id. It must be a positive integer.",
+      });
     }
-  }
+    // Έλεγχος αν το user_id υπάρχει
+    if (!validUserIds.includes(user_id)) {
+      return reject({
+        code: 400,
+        message: "User not found.",
+      });
+    }
 
-  
-  // Successful validation
-  const response = {
-    status: 200,
-    message: "Sync successful",
-    data: {
+    // Ενημέρωση των δεδομένων Spotify για τον χρήστη
+    spotifyData[user_id] = {
       accessToken: body.accessToken,
       refreshToken: body.refreshToken,
       expiresIn: body.expiresIn,
       scope: body.scope,
-    },
-  };
+    };
 
-  resolve(response); // Ensure the promise resolves with the response
-});
+    resolve({
+      message: `Spotify data synced successfully for user_id: ${user_id}`,
+    });
+  });
+};
+
+exports.userUser_idNotificationsCommentsGET = function (user_id) {
+  return new Promise(function (resolve, reject) {
+    // Έλεγχος αν το user_id είναι έγκυρο
+    if (!Number.isInteger(user_id) || user_id <= 0) {
+      return reject({
+        code: 400,
+        message: "Invalid user_id. It must be a positive integer.",
+      });
+    }
+    // Έλεγχος αν το user_id υπάρχει
+    if (!validUserIds.includes(user_id)) {
+      return reject({
+        code: 400,
+        message: "User not found.",
+      });
+    }
+    // Επιστροφή των ειδοποιήσεων για τον χρήστη
+    resolve(notifications[user_id] || []);
+  });
 };

@@ -35,6 +35,16 @@ module.exports.userUser_idSpotifyPUT = function userUser_idSpotifyPUT (req, res,
     });
 };
 
+module.exports.userUser_idNotificationsCommentsGET = function userUser_idNotificationsCommentsGET(req, res, next, user_id) {
+  DefaultService.userUser_idNotificationsCommentsGET(user_id)
+    .then(function (response) {
+      utils.writeJson(res, response, 200); 
+    })
+    .catch(function (err) {
+      utils.writeJson(res, { message: err.message }, err.code); 
+    });
+};
+
 
 
 

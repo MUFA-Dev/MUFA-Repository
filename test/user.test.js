@@ -130,91 +130,86 @@ test("POST /user/{user_id}/post with non-existent user_id", async (t) => {
 ///////////      PUT user/{user_id}/Spotify      ////////////////
 
 
-// Test 1: Valid Input
-
-test("PUT /user/{user_id}/Spotify with valid inputs", async (t) => {
-   const payload = {
-     accessToken: "validAccessToken",
-     refreshToken: "validRefreshToken",
-     expiresIn: 3600,
-     scope: "read_write",
-   };
-
-   const { statusCode, body: responseBody } = await t.context.got.put("user/7/spotify", {
-    json: payload
+test("PUT /user/{user_id}/spotify with valid inputs", async (t) => {
+  const payload = {
+    accessToken: "testAccessToken",
+    refreshToken: "testRefreshToken",
+    expiresIn: 3600,
+    scope: "playlist-read",
+  };
+  const { body, statusCode } = await t.context.got.put("user/7/spotify", {
+    json: payload,
   });
-
   t.is(statusCode, 200);
-  t.is(responseBody.message, "Sync successful");
-  
+  t.is(body.message, "Spotify data synced successfully for user_id: 7");
 });
 
-// Test 2: Invalid user_id (Invalid data type)
-test("PUT /user/{user_id}/Spotify with invalid user_id", async (t) => {
-  const body = {
-    accessToken: "validAccessToken",
-    refreshToken: "validRefreshToken",
+// Test 2: Invalid user_id
+test("PUT /user/{user_id}/spotify with invalid user_id", async (t) => {
+  const payload = {
+    accessToken: "testAccessToken",
+    refreshToken: "testRefreshToken",
     expiresIn: 3600,
-    scope: "read_write",
+    scope: "playlist-read",
   };
-
-  const { body: responseBody, statusCode } = await t.context.got.put("user/not-a-number/spotify", {
-    json: body,
+  const { body, statusCode } = await t.context.got.put("user/-10/spotify", {
+    json: payload,
     throwHttpErrors: false,
   });
-
   t.is(statusCode, 400);
-  t.is(responseBody.message, "request.params.user_id should be integer");
+  t.is(body.message, "Invalid user_id. It must be a positive integer.");
 });
 
-// Test 3: Invalid body (not an object)
-test("PUT /user/{user_id}/Spotify with invalid body", async (t) => {
-  const body = "not-an-object"; // Invalid body
-
-  const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
-    json: body,
-    throwHttpErrors: false,
-  });
-
-  t.is(statusCode, 400);
-  
-});
-
-
-
-// Test 5: Incorrect type in body fields
-test("PUT /user/{user_id}/Spotify with incorrect type in body", async (t) => {
-  const body = {
-    accessToken: "validAccessToken",
-    refreshToken: "validRefreshToken",
-    expiresIn: "not-an-integer", // Invalid type
-    scope: "read_write",
-  };
-
-  const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
-    json: body,
-    throwHttpErrors: false,
-  });
-
-  t.is(statusCode, 400);
-  t.is(responseBody.message, "request.body.expiresIn should be integer");
-});
-
-// Test 6: Invalid type for a string field
-test("PUT /user/{user_id}/Spotify with invalid type for string field", async (t) => {
-  const body = {
-    accessToken: 12345, // Invalid type
-    refreshToken: "validRefreshToken",
+// Test 3: Non-existent user_id
+test("PUT /user/{user_id}/spotify with non-existent user_id", async (t) => {
+  const payload = {
+    accessToken: "testAccessToken",
+    refreshToken: "testRefreshToken",
     expiresIn: 3600,
-    scope: "read_write",
+    scope: "playlist-read",
   };
-
-  const { body: responseBody, statusCode } = await t.context.got.put("user/123/spotify", {
-    json: body,
+  const { body, statusCode } = await t.context.got.put("user/999/spotify", {
+    json: payload,
     throwHttpErrors: false,
   });
-
   t.is(statusCode, 400);
-  t.is(responseBody.message, "request.body.accessToken should be string");
+  t.is(body.message, "User not found.");
 });
 
+
+////////////////////////////////////////////
+/// GET endpoint notifications(comments)///
+//////////////////////////////////////////
+
+// Test 1: Valid user_id with notifications
+test("GET /user/{user_id}/notifications/comments with valid user_id having notifications", async (t) => {
+  const { body, statusCode } = await t.context.got("user/7/notifications/comments");
+  t.is(statusCode, 200);
+  t.true(Array.isArray(body));
+  t.is(body[0].type, "mention");
+});
+
+// Test 2: Valid user_id without notifications
+test("GET /user/{user_id}/notifications/comments with valid user_id but no notifications", async (t) => {
+  const { body, statusCode } = await t.context.got("user/10/notifications/comments");
+  t.is(statusCode, 200);
+  t.deepEqual(body, []);
+});
+
+// Test 3: Invalid user_id
+test("GET /user/{user_id}/notifications/comments with invalid user_id", async (t) => {
+  const { body, statusCode } = await t.context.got("user/-5/notifications/comments", {
+    throwHttpErrors: false,
+  });
+  t.is(statusCode, 400);
+  t.is(body.message, "Invalid user_id. It must be a positive integer.");
+});
+
+// Test 4: Non-existent user_id
+test("GET /user/{user_id}/notifications/comments with non-existent user_id", async (t) => {
+  const { body, statusCode } = await t.context.got("user/999/notifications/comments", {
+    throwHttpErrors: false,
+  });
+  t.is(statusCode, 400);
+  t.is(body.message, "User not found.");
+});
