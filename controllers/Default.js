@@ -36,13 +36,5 @@ module.exports.userUser_idSpotifyPUT = function userUser_idSpotifyPUT (req, res,
 };
 
 
-module.exports.userUser_idSongGET = function userUser_idSongGET (req, res, next, user_id, song_name, song_artist, song_genre, song_album) {
-  DefaultService.userUser_idSongGET(user_id, song_name, song_artist, song_genre, song_album)
-    .then(function (response) {
-      utils.writeJson(res, response,response.code);
-    })
-    .catch(function (err) {
-      utils.writeJson(res,  { message: err.message }, err.code);
-    });
-};
+
 
