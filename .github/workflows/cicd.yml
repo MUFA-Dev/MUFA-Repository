@@ -25,8 +25,14 @@ jobs:
       - name: Verify dependencies
         run: npm ls
 
-      - name: Run test
-        run: npm test
+        - name: Run tests
+        run: npx c8 ava
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm start
+          wait-on: 'http://localhost:8080/docs' 
         
   cd:
     runs-on: ubuntu-latest
