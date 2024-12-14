@@ -115,6 +115,19 @@ test("PUT/user/{user_id}/post returns correct response and status code for user 
   console.log(response.statusCode,response.body)
 });
 
+test("PUT/user/{user_id}/post returns correct response and status code for user 3.5", async (t) => {
+  const post ={
+    song_lyrics:"",
+    song_album_cover:"",
+    song_canvas:""
+  }
+  const response = await t.context.got.put('user/1/post',{
+    json: post
+  });
+  t.is(response.statusCode, 200);
+  console.log(response.statusCode,response.body)
+});
+
 test("PUT/user/{user_id}/post returns correct response and status code for user 4", async (t) => {
   const post ={
     song_lyrics:"Theoi mou katoikoune sto magiko mou kefali",
@@ -195,10 +208,11 @@ test("PUT/user/{user_id}/following/{following_id}/post/{post_id}/comment/{commen
 });
 
 test("PUT/user/{user_id}/following/{following_id}/post/{post_id}/comment/{comment_id} returns correct response and status code for user 11", async (t) => {
-  const reply = `"Crazyy"`;  
-  const response = await t.context.got.put(`user/1/following/3/post/12/comment/11?reply=${reply}`, { throwHttpErrors: false });
+  const reply = `Crazy response`;  
+  const encodedReply = encodeURIComponent(reply);
+  const response = await t.context.got.put(`user/1/following/3/post/12/comment/11?reply=${encodedReply}`, { throwHttpErrors: false });
   t.is(response.statusCode, 200);
-  t.is(response.body.body, `You replied to the comment: "${reply}"`);
+  t.is(response.body.body, `You replied to the comment: ${reply}`);
 });
 
 test("PUT/user/{user_id}/following/{following_id}/post/{post_id}/comment/{comment_id} returns correct response and status code for user 12", async (t) => {

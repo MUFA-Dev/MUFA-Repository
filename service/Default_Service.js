@@ -355,7 +355,7 @@ exports.userUser_idFollowingFollowing_idPostPost_idCommentComment_idPUT = functi
 
     if (reply && commentRecord.reply !== reply) {
       commentRecord.reply = reply;
-      commentRecord.message = `You replied to the comment: "${reply}"`;
+      commentRecord.message = `You replied to the comment: ${reply}`;
       stateChanged = true;
     }
 
