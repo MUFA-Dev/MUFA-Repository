@@ -1,4 +1,3 @@
-
 # Swagger generated server
 
 ## Overview
