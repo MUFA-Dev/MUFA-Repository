@@ -1,4 +1,3 @@
-
 describe('Custom PUT Endpoint Tests', () => {
     beforeEach(() => {
       cy.visit('https://mufa-repository-1.onrender.com/docs/#/');
@@ -190,6 +189,7 @@ it("Ensure that schemas exist and work proeprely", () => {
   //Ensure that model box expands
   cy.get(".model").eq(0).should("be.visible");
 });
+
 
 })
 
