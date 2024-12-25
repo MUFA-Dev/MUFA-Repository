@@ -1,0 +1,3 @@
+{
+  "message": "Route defined in OpenAPI specification (/user/{user_id}/song) but there is no defined onGET operation."
+}
