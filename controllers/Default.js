@@ -3,7 +3,7 @@
 var utils = require('../utils/writer.js');
 var Default = require('../service/Default_Service.js');
 
-module.exports.userUser_idNotificationsPostsGET = function userUser_idNotificationsPostsGET (req, res, next, user_id) {
+module.exports.userUser_idNotificationsPostsGET = function userUser_idNotificationsPostsGET (_req, res, _next, user_id) {
      Default.userUser_idNotificationsPostsGET(user_id)
       .then(function (response) {
         utils.writeJson(res, response);
@@ -13,7 +13,7 @@ module.exports.userUser_idNotificationsPostsGET = function userUser_idNotificati
       });
   };
   //GET user/{id}/song
-module.exports.userUser_idSongGET = function userUser_idSongGET (req, res, next, song_name, song_artist, song_genre, song_album, user_id) {
+module.exports.userUser_idSongGET = function userUser_idSongGET (_req, res, _next, song_name, song_artist, song_genre, song_album, user_id) {
     Default.userUser_idSongGET(user_id, song_name, song_artist, song_genre, song_album)
       .then(function (response) {
         utils.writeJson(res, response);
@@ -23,7 +23,7 @@ module.exports.userUser_idSongGET = function userUser_idSongGET (req, res, next,
       });
   };
 
-module.exports.userUser_idNotificationsCommentsGET = function userUser_idNotificationsCommentsGET (req, res, next, user_id) {
+module.exports.userUser_idNotificationsCommentsGET = function userUser_idNotificationsCommentsGET (_req, res, _next, user_id) {
     Default.userUser_idNotificationsCommentsGET(user_id)
       .then(function (response) {
         utils.writeJson(res, response);
@@ -33,7 +33,7 @@ module.exports.userUser_idNotificationsCommentsGET = function userUser_idNotific
       });
   };
 
-module.exports.userUser_idPostPUT = function userUser_idPostPUT (req, res, next, body, song_lyrics, song_album_cover, song_canvas, user_id) {
+module.exports.userUser_idPostPUT = function userUser_idPostPUT (_req, res, _next, body, song_lyrics, song_album_cover, song_canvas, user_id) {
     Default.userUser_idPostPUT(body, song_lyrics, song_album_cover, song_canvas, user_id)
       .then(function (response) {
         utils.writeJson(res, response);
@@ -53,7 +53,7 @@ module.exports.userUser_idFollowingFollowing_idPostPost_idCommentComment_idPUT =
       });
   };
 
-module.exports.userUser_idFollowingFollowing_idPUT = function userUser_idFollowingFollowing_idPUT (req, res, next, user_id, following_id) {
+module.exports.userUser_idFollowingFollowing_idPUT = function userUser_idFollowingFollowing_idPUT (_req, res, _next, user_id, following_id) {
     Default.userUser_idFollowingFollowing_idPUT(user_id, following_id)
       .then(function (response) {
         utils.writeJson(res, response);
@@ -63,7 +63,7 @@ module.exports.userUser_idFollowingFollowing_idPUT = function userUser_idFollowi
       });
   };
 
-  module.exports.userUser_idFollowingFollowing_idDELETE = function userUser_idFollowingFollowing_idDELETE(req, res, next, user_id, following_id) {
+  module.exports.userUser_idFollowingFollowing_idDELETE = function userUser_idFollowingFollowing_idDELETE(_req, res, _next, user_id, following_id) {
     Default.userUser_idFollowingFollowing_idDELETE(user_id, following_id)
       .then(function (response) {
         utils.writeJson(res, response, response.code);
@@ -74,7 +74,7 @@ module.exports.userUser_idFollowingFollowing_idPUT = function userUser_idFollowi
   };
   
   
-  module.exports.userUser_idPostPOST = function userUser_idPostPOST(req, res, next, body, song_lyrics, song_album_cover, song_canvas, user_id) {
+  module.exports.userUser_idPostPOST = function userUser_idPostPOST(_req, res, _next, body, song_lyrics, song_album_cover, song_canvas, user_id) {
     Default.userUser_idPostPOST(body, song_lyrics, song_album_cover, song_canvas, user_id)
       .then(function (response) {
         utils.writeJson(res, response, 201); 
@@ -84,7 +84,7 @@ module.exports.userUser_idFollowingFollowing_idPUT = function userUser_idFollowi
       });
   };
   
-  module.exports.userUser_idSpotifyPUT = function userUser_idSpotifyPUT (req, res, next, body, user_id) {
+  module.exports.userUser_idSpotifyPUT = function userUser_idSpotifyPUT (_req, res, _next, body, user_id) {
    
     Default.userUser_idSpotifyPUT(body, user_id)
       .then(function (response) {
@@ -96,7 +96,7 @@ module.exports.userUser_idFollowingFollowing_idPUT = function userUser_idFollowi
   };
   
   //PUT user/{user_id}/following/{following_id}/post/{post_id}/song/{song_id}
-  module.exports.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT = function userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT (req, res, next, user_id, following_id, post_id, song_id) {
+  module.exports.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT = function userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT (_req, res, _next, user_id, following_id, post_id, song_id) {
      Default.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT(user_id, following_id, post_id, song_id)
       .then(function (response) {
         utils.writeJson(res,response,response.code);
@@ -106,7 +106,7 @@ module.exports.userUser_idFollowingFollowing_idPUT = function userUser_idFollowi
       });
   };
   //PUT user/{user_id}/following/{following_id}/post/{post_id}
-  module.exports.userUser_idFollowingFollowing_idPostPost_idPUT = function userUser_idFollowingFollowing_idPostPost_idPUT (req, res, next, user_id, following_id, post_id, like, comment, report) {
+  module.exports.userUser_idFollowingFollowing_idPostPost_idPUT = function userUser_idFollowingFollowing_idPostPost_idPUT (_req, res, _next, user_id, following_id, post_id, like, comment, report) {
     Default.userUser_idFollowingFollowing_idPostPost_idPUT(user_id, following_id, post_id, like, comment, report)
       .then(function (response) {
         utils.writeJson(res,response,response.code);
@@ -116,7 +116,7 @@ module.exports.userUser_idFollowingFollowing_idPUT = function userUser_idFollowi
       });
   };
   //DEL user/{id}/post/{id}
-  module.exports.userUser_idPostPost_idDELETE = function userUser_idPostPost_idDELETE (req, res, next, user_id, post_id) {
+  module.exports.userUser_idPostPost_idDELETE = function userUser_idPostPost_idDELETE (_req, res, _next, user_id, post_id) {
      Default.userUser_idPostPost_idDELETE(user_id, post_id)
       .then(function (response) {
         utils.writeJson(res,response,response.code);
