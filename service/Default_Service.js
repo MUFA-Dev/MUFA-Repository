@@ -143,7 +143,7 @@ exports.userUser_idNotificationsCommentsGET = function(user_id) {
   return handleNotificationRequest(user_id, user_ids, examples);
 };
 
-exports.userUser_idSongGET = function (user_id, _, song_artist, song_genre, song_album) {
+exports.userUser_idSongGET = function (user_id, _, _song_artist, _song_genre, _song_album) {
   return new Promise(function (resolve, reject) {
       const songs = [
           { id: 0, title: "title", artist: "artist", album: "album", genre: "genre" },
@@ -171,7 +171,7 @@ exports.userUser_idSongGET = function (user_id, _, song_artist, song_genre, song
   });
 };
 
-exports.userUser_idPostPUT = function(body, song_lyrics, song_album_cover, song_canvas, user_id) {
+exports.userUser_idPostPUT = function(body, _song_lyrics, _song_album_cover, _song_canvas, user_id) {
   return new Promise(function(resolve, reject) {
     // Initialize posts array with sample posts
     let posts_song = [
