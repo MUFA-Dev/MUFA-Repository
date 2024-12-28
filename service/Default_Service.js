@@ -171,7 +171,7 @@ exports.userUser_idSongGET = function (user_id, _, __, ___, ____) {
   });
 };
 
-exports.userUser_idPostPUT = function(body, _song_lyrics, _song_album_cover, _song_canvas, user_id) {
+exports.userUser_idPostPUT = function(body, _, __, ___, user_id) {
   return new Promise(function(resolve, reject) {
     // Initialize posts array with sample posts
     let posts_song = [
