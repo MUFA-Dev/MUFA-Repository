@@ -143,7 +143,7 @@ exports.userUser_idNotificationsCommentsGET = function(user_id) {
   return handleNotificationRequest(user_id, user_ids, examples);
 };
 
-exports.userUser_idSongGET = function (user_id, _, _song_artist, _song_genre, _song_album) {
+exports.userUser_idSongGET = function (user_id, _, __, ___, ____) {
   return new Promise(function (resolve, reject) {
       const songs = [
           { id: 0, title: "title", artist: "artist", album: "album", genre: "genre" },
