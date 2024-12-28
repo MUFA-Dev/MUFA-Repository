@@ -166,7 +166,7 @@ exports.userUser_idSongGET = function (user_id, _, __, ___, ____) {
           body: {error:"Response code 404: Song Not Found"},
         });
       }
-      response=filteredsongs;
+      let response=filteredsongs;
       resolve(response);
   });
 };
