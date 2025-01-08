@@ -1,8 +1,6 @@
 name: cicd
-
 on:
   push:
-
 jobs:
   ci:
     runs-on: ubuntu-latest

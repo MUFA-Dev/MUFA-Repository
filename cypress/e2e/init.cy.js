@@ -138,6 +138,7 @@ it("Click on '/user/{user_id}/songGET' endpoint and verify responses", () => {
 
   // Check the response codes (wait for them to appear)
   cy.get('.response-col_status').should('be.visible');
+
   //Ensure that responses 500,400 and 200 are present
   // cy.get('.response-col_status').contains('500');
   cy.get('.response-col_status').contains('400');
@@ -146,6 +147,7 @@ it("Click on '/user/{user_id}/songGET' endpoint and verify responses", () => {
   // cy.get('.download-contents').should('be.visible');
   //verify that download button works
     //cy.get('.download-contents').click();
+
   //Verify that media type button works
   cy.get('.content-type-wrapper ').click();
   cy.get('.content-type').should('be.visible');
@@ -169,6 +171,7 @@ it("/user/{user_id}/post/{post_id}", () =>{
     'contain.text',
     'https://mufa-repository-1.onrender.com/user/1/post/10'
   );
+
 
   // cy.get('.response-col_status').contains('500');
   cy.get('.response-col_status').contains('400');
