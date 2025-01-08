@@ -1,96 +1,149 @@
 'use strict';
 
-const { post } = require("..");
+// const { post } = require("..");
 
-const posts = []; 
+const posts_1 = []; 
 const user_ids = [1, 7, 10, 30, 32, 40];
 const following_ids = [3, 8, 15, 13, 39, 101, 117];
 const post_ids = [12, 23, 54, 98, 123, 203, 205];
 const comment_ids=[11, 24, 55, 99, 124, 204, 206];
 const validUserIds = [1, 7, 10, 30, 32, 40]; // Υποθετικοί έγκυροι `user_id`
 const spotifyData = {};
+var posts = {};
+    posts['application/json'] = [
+      {
+        "user_id": 1,
+        "following_id": 100,
+        "post_id":3 ,
+        "likes": 0,
+        "comments": [],
+        "reports": 0,
+        "message": "",
+        "song_id": 1
+      },
+      {
+        "user_id": 7,
+        "following_id": 8,
+        "post_id": 10,
+        "likes": 3,
+        "comments": ["Nice post!"],
+        "reports": 1,
+        "message": "",
+        "song_id": 2
+      }
+    ];
 
-const mockSongs = [
-  {
-    title: "Nyxterides",
-    artist: "LEX",
-    genre: "rap",
-    album: "G.T.K.",
-  },
-  {
-    title: "Dreaming Big",
-    artist: "John Doe",
-    genre: "pop",
-    album: "Dreamers",
-  },
-];
+function handleNotificationRequest(user_id, user_ids, examples) {
+  return new Promise(function (resolve, reject) {
+    // Check if user_id is valid
+    if (!user_ids.includes(user_id)) {
+      reject({
+        body: { error: "User Not Found" },
+        code: 404 // Not Found
+      });
+      return;
+    }
+
+    // Filter by user_id and return only the "message" field
+    let result = examples['application/json']
+      .filter(notification => notification.id === user_id)
+      .map(notification => notification.message);
+
+    if (result.length === 0) {
+      reject({
+        body: { error: "Notification Not Found" },
+        code: 404 // Not Found
+      });
+      return;
+    }
+
+    resolve({
+      body: result, // Return only the "message"
+      code: 200 // Success
+    });
+  });
+}
 
 exports.userUser_idNotificationsPostsGET = function(user_id) {
-    return new Promise(function(resolve, reject) {
-      var examples = {};
-      examples['application/json'] = [ 
-        {
-          "read": false,
-          "created_at": "2024-12-01T12:00:00.000+00:00",
-          "id": 1,
-          "type": "like",
-          "message": "Alex liked your post",
-        },
-        {
-          "read": true,
-          "created_at": "2024-12-02T08:30:00.000+00:00",
-          "id": 7,
-          "type": "comment",
-          "message": "Emma commented: 'This song is fire! 🔥' ",
-        },
-        {
-          "read": false,
-          "created_at": "2024-12-05T09:00:00.000+00:00",
-          "id": 10,
-          "type": "share",
-          "message": "Liam shared your post: 'Acoustic vibes for the weekend.'",
-        },
-        {
-          "read": true,
-          "created_at": "2024-12-02T08:30:00.000+00:00",
-          "id": 32,
-          "type": "comment",
-          "message": "George commented: 'I didn't like that song.'",
-        },
-        {
-          "read": false,
-          "created_at": "2024-12-05T09:00:00.000+00:00",
-          "id": 30,
-          "type": "share",
-          "message": "Dani shared your post: 'Shoutout to my brother. Love from Athens'",
-        },
-      ];
+  var examples = {};
+  examples['application/json'] = [ 
+    {
+      "read": false,
+      "created_at": "2024-12-01T12:00:00.000+00:00",
+      "id": 1,
+      "type": "like",
+      "message": "Alex liked your post",
+    },
+    {
+      "read": true,
+      "created_at": "2024-12-02T08:30:00.000+00:00",
+      "id": 7,
+      "type": "comment",
+      "message": "Emma commented: 'This song is fire! 🔥' ",
+    },
+    {
+      "read": false,
+      "created_at": "2024-12-05T09:00:00.000+00:00",
+      "id": 10,
+      "type": "share",
+      "message": "Liam shared your post: 'Acoustic vibes for the weekend.'",
+    },
+    {
+      "read": true,
+      "created_at": "2024-12-02T08:30:00.000+00:00",
+      "id": 32,
+      "type": "comment",
+      "message": "George commented: 'I didn't like that song.'",
+    },
+    {
+      "read": false,
+      "created_at": "2024-12-05T09:00:00.000+00:00",
+      "id": 30,
+      "type": "share",
+      "message": "Dani shared your post: 'Shoutout to my brother. Love from Athens'",
+    },
+  ];
 
-      // If user_id is not found
-     if (!user_ids.includes(user_id)) {
-        reject({
-          body: { error: "User Not Found" },
-          code: 404 // Not Found
-        });
-     }
-
-      // Filter by user_id and return only the "message" field
-     let result = examples['application/json'].filter(notification => notification.id === user_id)
-                                               .map(notification => notification.message);
-     if(result.length === 0){
-      reject({
-        body:{error: "Notification Not Found"},
-        code: 404
-      })
-     }
-     resolve({
-        body: result, // Return only the "message"
-        code: 200 // Success
-     });
-    });
+  return handleNotificationRequest(user_id, user_ids, examples);
 };
 
-exports.userUser_idSongGET = function (user_id, song_name, song_artist, song_genre, song_album) {
+exports.userUser_idNotificationsCommentsGET = function(user_id) {
+  var examples = {};
+  examples['application/json'] = [
+    {
+      "read": false,
+      "created_at": "2024-12-01T12:00:00.000+00:00",
+      "id": 1,
+      "type": "like",
+      "message": "Alex liked your comment",
+    },
+    {
+      "read": true,
+      "created_at": "2024-12-02T08:30:00.000+00:00",
+      "id": 7,
+      "type": "comment",
+      "message": "Emma responded: 'It really is fire! 🔥' ",
+    },
+    {
+      "read": true,
+      "created_at": "2024-12-02T08:30:00.000+00:00",
+      "id": 30,
+      "type": "comment",
+      "message": "George responded: 'I didn't like that song.'",
+    },
+    {
+      "read": false,
+      "created_at": "2024-12-05T09:00:00.000+00:00",
+      "id": 32,
+      "type": "share",
+      "message": "Dani liked your post: 'All my fellas love Athens homie'",
+    },
+  ];
+
+  return handleNotificationRequest(user_id, user_ids, examples);
+};
+
+exports.userUser_idSongGET = function (user_id, _, __, ___, ____) {
   return new Promise(function (resolve, reject) {
       const songs = [
           { id: 0, title: "title", artist: "artist", album: "album", genre: "genre" },
@@ -113,74 +166,15 @@ exports.userUser_idSongGET = function (user_id, song_name, song_artist, song_gen
           body: {error:"Response code 404: Song Not Found"},
         });
       }
-      response=filteredsongs;
+      let response=filteredsongs;
       resolve(response);
   });
 };
 
-exports.userUser_idNotificationsCommentsGET = function(user_id) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = [ 
-      {
-        "read": false,
-        "created_at": "2024-12-01T12:00:00.000+00:00",
-        "id": 1,
-        "type": "like",
-        "message": "Alex liked your comment",
-      },
-      {
-        "read": true,
-        "created_at": "2024-12-02T08:30:00.000+00:00",
-        "id": 7,
-        "type": "comment",
-        "message": "Emma responded: 'It really is fire! 🔥' ",
-      },
-      {
-        "read": true,
-        "created_at": "2024-12-02T08:30:00.000+00:00",
-        "id": 30,
-        "type": "comment",
-        "message": "George responded: 'I didn't like that song.'",
-      },
-      {
-        "read": false,
-        "created_at": "2024-12-05T09:00:00.000+00:00",
-        "id": 32,
-        "type": "share",
-        "message": "Dani liked your post: 'All my fellas love Athens homie'",
-      },
-    ];
-
-    // Check for missing or invalid user_id
-   // If user_id is not found
-   if (!user_ids.includes(user_id)) {
-    reject({
-      body: { error: "User Not Found" },
-      code: 404 // Not Found
-    });
-  }
-
-   // Filter by user_id and return only the "message" field
-   let result = examples['application/json'].filter(notification => notification.id === user_id)
-                                           .map(notification => notification.message);
-   if(result.length === 0){
-      reject({
-        body:{error: "Notification Not Found"},
-        code: 404
-   })
-  }
-   resolve({
-     body: result, // Return only the "message"
-     code: 200 // Success
-   });
-  });
-};
-
-exports.userUser_idPostPUT = function(body, song_lyrics, song_album_cover, song_canvas, user_id) {
+exports.userUser_idPostPUT = function(body, _, __, ___, user_id) {
   return new Promise(function(resolve, reject) {
     // Initialize posts array with sample posts
-    let posts = [
+    let posts_song = [
       { "user_id": 1, "song_lyrics": "Egw tairiazw mesthn polh san nekros ston bytho", "song_album_cover": "", "song_canvas": "" },
       { "user_id": 7, "song_lyrics": "", "song_album_cover": "", "song_canvas": "" }
     ];
@@ -194,7 +188,7 @@ exports.userUser_idPostPUT = function(body, song_lyrics, song_album_cover, song_
     }
 
     // Find the post corresponding to the user_id
-    const post = posts.find(p => p.user_id === user_id);
+    const post = posts_song.find(p => p.user_id === user_id);
     if (!post) {
       // Handle case where post for user_id does not exist
       return reject({
@@ -465,14 +459,14 @@ exports.userUser_idPostPOST = function (body, song_lyrics, song_album_cover, son
     
      // Δημιουργία του νέου post
    const newPost = {
-      id: posts.length + 1, // Auto-increment ID
+      id: posts_1.length + 1, // Auto-increment ID
       user_id,
       content: body.content,
       song_lyrics,
       song_album_cover,
       song_canvas,
     };
-    posts.push(newPost); // Αποθήκευση στη μνήμη
+    posts_1.push(newPost); // Αποθήκευση στη μνήμη
     resolve(newPost); // Επιστροφή της απάντησης
   });
 };
@@ -514,8 +508,8 @@ exports.userUser_idSpotifyPUT = function (body, user_id) {
 exports.userUser_idFollowingFollowing_idPostPost_idPUT = function (like, comment, report, user_id, following_id, post_id) {
   return new Promise(function (resolve, reject) {
     console.log("user_id:", user_id, "following_id:", following_id, "post_id:", post_id, "like:", like, "comment:", comment, "report:", report);
-    var posts = {};
-    posts['application/json'] = [
+    var posts_2 = {};
+    posts_2['application/json'] = [
       {
         "user_id": 1,
         "following_id": 100,
@@ -546,7 +540,7 @@ exports.userUser_idFollowingFollowing_idPostPost_idPUT = function (like, comment
       });
     }
     // Find the post record matching the user_id, following_id, and post_id
-    let postRecord = posts['application/json'].find(
+    let postRecord = posts_2['application/json'].find(
       (t) => t.user_id === user_id && t.following_id === following_id && t.post_id === post_id
     );
 
@@ -586,29 +580,6 @@ exports.userUser_idFollowingFollowing_idPostPost_idSongSong_idPUT = function (us
   return new Promise(function (resolve, reject) {
     console.log("user_id:", user_id, "following_id:", following_id, "post_id:", post_id, "song_id:", song_id);
     // Validate inputs
-    var posts = {};
-    posts['application/json'] = [
-      {
-        "user_id": 1,
-        "following_id": 100,
-        "post_id":3 ,
-        "likes": 0,
-        "comments": [],
-        "reports": 0,
-        "message": "",
-        "song_id": 1
-      },
-      {
-        "user_id": 7,
-        "following_id": 8,
-        "post_id": 10,
-        "likes": 3,
-        "comments": ["Nice post!"],
-        "reports": 1,
-        "message": "",
-        "song_id": 2
-      }
-    ];
     if (!user_ids.includes(user_id)) {
       return reject({
         error: "User Not Found." ,

@@ -1,7 +1,6 @@
 name: cicd
 on:
   push:
-    
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -40,7 +39,7 @@ jobs:
       - name: Deploy to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          service-id: ${{ secrets.RENDER_SERVICE_ID_DOOJY }}
-          api-key: ${{ secrets.RENDER_API_KEY_DOOJY }}
+          service-id: ${{ secrets.RENDER_SERVICE_ID}}
+          api-key: ${{ secrets.RENDER_API_KEY }}
       - name: Confirm Deployment
         run: echo "Deployment to Render completed successfully"
